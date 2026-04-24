@@ -1,15 +1,10 @@
 /* ================================================================
-   GPS BLOG SCRIPTS  (v1.1 — sidebar visibility fix)
+   GPS BLOG SCRIPTS  (v1.2 — TOC inserted into right sidebar column)
    ----------------------------------------------------------------
-   Consolidated runtime scripts for blog post types.
-   Loaded externally from Blog Posts Template page head.
-
-   SCRIPTS IN THIS FILE
-   --------------------
-   A. VS title auto-coloring  — splits-colors H1s that contain " vs. "
-   B. HowTo schema injection  — reads gps-step microdata, outputs JSON-LD
-   C. Guide sidebar injection — builds sticky chapter nav for guide posts
-                                + fades in only when chapters are on-screen
+   v1.2 change: sidebar is no longer floating/fixed. It's inserted
+   as a sticky block into the existing right column (under the
+   "More Posts" card), where it scrolls naturally with the page and
+   pins to the top as the reader moves through chapters.
    ================================================================ */
 
 (function() {
@@ -82,11 +77,14 @@
   }
 
   // ================================================================
-  // C. GUIDE SIDEBAR INJECTION (v1.1 — visibility gating)
-  // The sidebar is built immediately, but hidden by default.
-  // It only becomes visible once the first chapter enters the viewport
-  // (i.e. the reader has scrolled past the hero + quick-answer + KT sections).
-  // It hides again when the last chapter leaves the viewport.
+  // C. GUIDE SIDEBAR INJECTION (v1.2 — inserted into right column)
+  //
+  // Strategy:
+  //   1. Find the existing "More Posts" block on the right side.
+  //   2. Build the chapters TOC.
+  //   3. Insert it immediately AFTER the More Posts block so it
+  //      becomes a natural part of that column's vertical flow.
+  //   4. CSS pins it with `position: sticky` once it hits the top.
   // ================================================================
   function initGuideSidebar() {
     var chapters = document.querySelectorAll('article.gps-chapter');
@@ -94,15 +92,26 @@
 
     document.body.classList.add('is-guide-post');
 
-    // Build sidebar structure
-    var sidebar = document.createElement('aside');
-    sidebar.className = 'gps-guide-sidebar';
-    sidebar.setAttribute('aria-label', 'Chapter navigation');
+    // Find the "More Posts" section. The blog template uses an H2 or
+    // H3 with "More Posts" text. We walk up to find the enclosing card.
+    var morePostsAnchor = null;
+    var allHeadings = document.querySelectorAll('h2, h3, h4, h5');
+    for (var i = 0; i < allHeadings.length; i++) {
+      if (allHeadings[i].textContent.trim().toLowerCase() === 'more posts') {
+        morePostsAnchor = allHeadings[i];
+        break;
+      }
+    }
+
+    // Build the TOC block
+    var toc = document.createElement('aside');
+    toc.className = 'gps-guide-sidebar gps-guide-sidebar-inline';
+    toc.setAttribute('aria-label', 'Chapter navigation');
 
     var label = document.createElement('div');
     label.className = 'gps-guide-sidebar-label';
     label.textContent = 'Chapters';
-    sidebar.appendChild(label);
+    toc.appendChild(label);
 
     var ol = document.createElement('ol');
     chapters.forEach(function(ch, i) {
@@ -125,23 +134,43 @@
       li.appendChild(a);
       ol.appendChild(li);
     });
-    sidebar.appendChild(ol);
-    document.body.appendChild(sidebar);
+    toc.appendChild(ol);
 
-    var links = sidebar.querySelectorAll('a');
-    var firstChapter = chapters[0];
-    var lastChapter = chapters[chapters.length - 1];
-
-    function updateVisibility() {
-      // Show sidebar when:
-      //   firstChapter top has scrolled above 200px (reader passed the hero)
-      //   AND lastChapter bottom is still below 200px (chapters still on screen)
-      var firstTop = firstChapter.getBoundingClientRect().top;
-      var lastBottom = lastChapter.getBoundingClientRect().bottom;
-      var shouldShow = firstTop < 200 && lastBottom > 200;
-      sidebar.classList.toggle('is-visible', shouldShow);
+    // Insert the TOC into the DOM:
+    // Prefer to insert right AFTER the "More Posts" enclosing block.
+    // Walk up from the heading until we find a reasonable container
+    // (usually a .w-dyn-list or a card wrapper).
+    if (morePostsAnchor) {
+      // Walk up at most 4 levels looking for a large enough container
+      var container = morePostsAnchor;
+      for (var j = 0; j < 4; j++) {
+        if (!container.parentElement) break;
+        container = container.parentElement;
+        // Stop when we're a direct child of a column (a few common markers)
+        var cls = (container.className || '').toString().toLowerCase();
+        if (cls.indexOf('col') !== -1 || cls.indexOf('sidebar') !== -1 ||
+            cls.indexOf('w-col') !== -1 || cls.indexOf('blog-side') !== -1) {
+          // The container IS the column — insert as its last child
+          container.appendChild(toc);
+          break;
+        }
+        // Heuristic: if we walked 3 levels up and found a w-dyn-list or similar, use it
+        if (j === 3) {
+          // Fallback — insert right after the walked-to container
+          if (container.parentNode) {
+            container.parentNode.insertBefore(toc, container.nextSibling);
+          }
+          break;
+        }
+      }
+    } else {
+      // If we couldn't find "More Posts", fall back to body append
+      // (won't happen on guide blog template but keeps us safe)
+      document.body.appendChild(toc);
     }
 
+    // Scroll-spy: highlight the current chapter as user scrolls
+    var links = toc.querySelectorAll('a');
     function updateActive() {
       var current = chapters[0].id;
       chapters.forEach(function(ch) {
@@ -152,15 +181,8 @@
         link.classList.toggle('active', link.getAttribute('href') === '#' + current);
       });
     }
-
-    function onScroll() {
-      updateVisibility();
-      updateActive();
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-    onScroll();
+    window.addEventListener('scroll', updateActive, { passive: true });
+    updateActive();
   }
 
   // ================================================================
