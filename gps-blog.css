@@ -1,9 +1,17 @@
 /* ================================================================
-   GPS BLOG STYLES & SCRIPTS
+   GPS BLOG STYLES & SCRIPTS  (v1.1 — sidebar visibility fix)
    ----------------------------------------------------------------
    Consolidated CSS + JS for all blog post types on the GPS site.
    Hosted externally, loaded from Blog Posts Template page head.
-   
+
+   CHANGELOG
+   ---------
+   v1.1 — sidebar is hidden by default, fades in only when
+          body.is-guide-post AND .gps-guide-sidebar.is-visible
+          (JS toggles is-visible based on scroll position relative
+          to first/last chapter)
+   v1.0 — initial consolidated release
+
    TABLE OF CONTENTS
    -----------------
    01. GLOBAL HELPERS         — Key Takeaways bullets, empty FAQ hiding
@@ -16,27 +24,6 @@
    08. COMPARISON POST        — VS intro, VS table, verdict blocks, scenarios, callout, auto "vs." title coloring
    09. HOW-TO POST            — Prereq box, step cards, tool cards, step notes
    10. GUIDE POST (PILLAR)    — Scope answer, chapters, key-takeaway, glossary, chart, cross-link, tool list, sticky sidebar
-   
-   SCRIPTS (bottom of file)
-   ------------------------
-   A. VS title auto-coloring  — detects " vs. " in H1 and splits-colors
-   B. HowTo schema injection  — reads gps-step microdata, outputs JSON-LD
-   C. Guide sidebar injection — builds sticky chapter nav for guide posts
-   
-   BRAND PALETTE (reference)
-   -------------------------
-   Midnight Blue   #12074e  (primary brand)
-   Gold            #f6d64a  (accent)
-   Dark Turquoise  #53bdc8  (link / section accent)
-   Cadet Blue      #45a0aa  (secondary text)
-   Crimson         #df0651  (contrast / option B)
-   Mint            #eef5f5  (soft background)
-   Powder Blue     #b3e2e7  (border)
-   Light Cyan      #d1f4f6  (pop background)
-   Butter Yellow   #fef8e1  (callout background)
-   Black           #1a1a1a  (body text)
-   Gray            #5f5e5a  (muted text)
-   Border Gray     #d1e3e5  (card borders)
    ================================================================ */
 
 
@@ -177,11 +164,6 @@
 
 /* ================================================================
    05. RICH TEXT PATTERNS — Tables, Pros/Cons, Numbered Steps
-   Use inline in the Rich Text body:
-     <table class="gps-table">
-     <ul class="gps-pros"> / <ul class="gps-cons">
-     <ol class="gps-steps">
-     Wrap pros+cons in <div class="gps-proscons">
    ================================================================ */
 
 /* --- TABLES --- */
@@ -358,7 +340,6 @@
 
 /* ================================================================
    07. LIST POST — TOC, ranked list cards, meta, verdict
-   Used for: "Best X in Y", "Top N Things...", etc.
    ================================================================ */
 
 /* --- TOC --- */
@@ -457,7 +438,7 @@
   color: #1a1a1a !important; margin: 0 0 20px 0 !important;
 }
 
-/* --- 2-COLUMN GRID (core services + specialty fit) --- */
+/* --- 2-COLUMN GRID --- */
 .blog-content-col .w-richtext .gps-list-grid {
   display: grid !important; grid-template-columns: 1fr 1fr !important;
   gap: 20px !important; margin-bottom: 20px !important;
@@ -517,13 +498,10 @@
 
 
 /* ================================================================
-   08. COMPARISON POST — VS cards, VS table, verdict blocks, scenarios, callout
-   Colors: opt-a = Dark Turquoise (option A / steady)
-           opt-b = Crimson       (option B / energetic)
-   Auto "vs." title coloring via JS (see script A at bottom)
+   08. COMPARISON POST
    ================================================================ */
 
-/* --- AUTO "vs." TITLE COLORING (classes added by script A) --- */
+/* --- AUTO "vs." TITLE COLORING --- */
 .blog-content-col h1 .vs-a,
 .w-richtext h1 .vs-a { color: #45a0aa !important; }
 .blog-content-col h1 .vs-b,
@@ -605,7 +583,7 @@
   color: #12074e !important; width: 22% !important;
 }
 
-/* --- "WHEN X WINS" PAIRED VERDICT BLOCKS --- */
+/* --- "WHEN X WINS" VERDICT BLOCKS --- */
 .blog-content-col .w-richtext .gps-vs-verdict {
   max-width: 720px !important; margin: 32px auto !important;
   padding: 24px 28px !important; border-radius: 8px !important;
@@ -625,7 +603,7 @@
 .blog-content-col .w-richtext .gps-vs-verdict p { margin-bottom: 12px !important; }
 .blog-content-col .w-richtext .gps-vs-verdict p:last-child { margin-bottom: 0 !important; }
 
-/* --- SCENARIO CARDS (3-stage budget guide) --- */
+/* --- SCENARIO CARDS --- */
 .blog-content-col .w-richtext .gps-scenarios {
   display: grid !important; grid-template-columns: repeat(3, 1fr) !important;
   gap: 16px !important; max-width: 720px !important;
@@ -685,8 +663,7 @@
 
 
 /* ================================================================
-   09. HOW-TO POST — Prereq box, step cards, tool cards, step notes
-   HowTo schema JSON-LD injected via script B at bottom
+   09. HOW-TO POST
    ================================================================ */
 
 /* --- PREREQ BOX --- */
@@ -776,7 +753,7 @@
   color: #1a1a1a !important;
 }
 
-/* --- STEP NOTE (callout inside a step) --- */
+/* --- STEP NOTE --- */
 .blog-content-col .w-richtext .gps-step-note {
   margin: 18px 0 0 0 !important;
   padding: 16px 20px !important;
@@ -806,12 +783,9 @@
 
 /* ================================================================
    10. GUIDE POST (PILLAR)
-   Patterns: scope-answer, guide-hero, chapters, chapter-intro,
-             key-takeaway, glossary, cpl-chart, cross-link, tools-list
-   Sticky sidebar injected by script C (body.is-guide-post gate)
    ================================================================ */
 
-/* --- SCOPE ANSWER (pillar citation block) --- */
+/* --- SCOPE ANSWER --- */
 .blog-content-col .w-richtext .gps-scope-answer {
   max-width: 760px !important;
   margin: 24px auto 32px auto !important;
@@ -870,7 +844,7 @@
   border-top: none !important; color: #1a1a1a !important;
 }
 
-/* --- CHAPTER INTRO (AI-citable mini-answer) --- */
+/* --- CHAPTER INTRO --- */
 .blog-content-col .w-richtext .gps-chapter-intro {
   font-size: 18px !important; line-height: 1.65 !important;
   color: #12074e !important; font-weight: 500 !important;
@@ -884,7 +858,7 @@
   color: #12074e !important; font-weight: 700 !important;
 }
 
-/* --- KEY TAKEAWAY BOX (end of chapter) --- */
+/* --- KEY TAKEAWAY BOX --- */
 .blog-content-col .w-richtext .gps-key-takeaway {
   background: #fef8e1 !important;
   border-left: 4px solid #f6d64a !important;
@@ -923,7 +897,7 @@
   margin: 0 0 8px 0 !important; font-size: 15px !important; line-height: 1.55 !important;
 }
 
-/* --- CPL CHART (horizontal bar chart) --- */
+/* --- CPL CHART --- */
 .blog-content-col .w-richtext .gps-cpl-chart {
   background: #fff !important; border: 1px solid #d1e3e5 !important;
   border-radius: 8px !important; padding: 24px !important; margin: 24px 0 !important;
@@ -968,7 +942,7 @@
   margin-top: 12px !important; font-style: italic !important;
 }
 
-/* --- CROSS-LINK CARD (hub-and-spoke to sister content) --- */
+/* --- CROSS-LINK CARD --- */
 .blog-content-col .w-richtext a.gps-cross-link {
   display: flex !important; gap: 18px !important; align-items: flex-start !important;
   background: #d1f4f6 !important; border: 1px solid #b3e2e7 !important;
@@ -1038,16 +1012,31 @@
   color: #1a1a1a !important; margin: 0 !important;
 }
 
-/* --- STICKY SIDEBAR (guide posts only, injected by script C) --- */
+/* ==================== STICKY SIDEBAR (v1.1 — hidden by default) ==================== */
+/* The sidebar is built in the DOM by the script, but hidden by default (opacity 0, not interactable).
+   The script toggles .is-visible once the first chapter has scrolled into view.
+   This prevents overlap with the hero section at page top. */
 body.is-guide-post .gps-guide-sidebar {
   position: fixed !important;
-  top: 100px !important;
+  top: 120px !important;
   left: max(24px, calc((100vw - 1200px) / 2 + 24px)) !important;
   width: 240px !important;
-  max-height: calc(100vh - 130px) !important;
+  max-height: calc(100vh - 160px) !important;
   overflow-y: auto !important;
   z-index: 20 !important;
   padding-right: 8px !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(8px) !important;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0.25s !important;
+}
+body.is-guide-post .gps-guide-sidebar.is-visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateY(0) !important;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0s !important;
 }
 body.is-guide-post .gps-guide-sidebar-label {
   font-family: 'Poppins', sans-serif !important;
@@ -1087,7 +1076,8 @@ body.is-guide-post .gps-guide-sidebar ol li a.active .ch-num {
 }
 
 @media (max-width: 1200px) {
-  body.is-guide-post .gps-guide-sidebar { display: none !important; }
+  body.is-guide-post .gps-guide-sidebar,
+  body.is-guide-post .gps-guide-sidebar.is-visible { display: none !important; }
 }
 
 @media (max-width: 767px) {
