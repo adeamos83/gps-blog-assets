@@ -1,29 +1,14 @@
 /* ================================================================
-   GPS BLOG STYLES & SCRIPTS  (v1.1 — sidebar visibility fix)
+   GPS BLOG STYLES & SCRIPTS  (v1.2 — inline sticky TOC under More Posts)
    ----------------------------------------------------------------
-   Consolidated CSS + JS for all blog post types on the GPS site.
-   Hosted externally, loaded from Blog Posts Template page head.
-
    CHANGELOG
    ---------
-   v1.1 — sidebar is hidden by default, fades in only when
-          body.is-guide-post AND .gps-guide-sidebar.is-visible
-          (JS toggles is-visible based on scroll position relative
-          to first/last chapter)
+   v1.2 — TOC is now inserted into the existing right column by JS,
+          right after the "More Posts" block. Uses position: sticky
+          so it pins to the top of the viewport while reading, then
+          naturally scrolls off when the column ends.
+   v1.1 — fixed-position overlay with is-visible gating (deprecated)
    v1.0 — initial consolidated release
-
-   TABLE OF CONTENTS
-   -----------------
-   01. GLOBAL HELPERS         — Key Takeaways bullets, empty FAQ hiding
-   02. BLOG TYPOGRAPHY        — Body, H2, H3, lists, links (Comrade-inspired)
-   03. COMPONENT TYPE BUMP    — Quick Answer / Key Takeaways / FAQ font sizes
-   04. COMPONENT LABELS       — Section label pill sizes
-   05. RICH TEXT PATTERNS     — Tables, pros/cons, numbered steps
-   06. BODY IMAGES            — CMS image slots + inline HTML images
-   07. LIST POST              — TOC, ranked list items, verdict callouts
-   08. COMPARISON POST        — VS intro, VS table, verdict blocks, scenarios, callout, auto "vs." title coloring
-   09. HOW-TO POST            — Prereq box, step cards, tool cards, step notes
-   10. GUIDE POST (PILLAR)    — Scope answer, chapters, key-takeaway, glossary, chart, cross-link, tool list, sticky sidebar
    ================================================================ */
 
 
@@ -119,7 +104,7 @@
 
 
 /* ================================================================
-   03. COMPONENT TYPE SIZE BUMP (Quick Answer / KT / FAQ)
+   03. COMPONENT TYPE SIZE BUMP
    ================================================================ */
 [class*="qa-body"] { font-size: 17px !important; line-height: 1.65 !important; }
 [class*="kt-intro"] { font-size: 16px !important; line-height: 1.55 !important; }
@@ -143,7 +128,7 @@
 
 
 /* ================================================================
-   04. COMPONENT LABELS (section pill sizing)
+   04. COMPONENT LABELS
    ================================================================ */
 [class*="qa-label"],
 [class*="kt-label"] {
@@ -163,7 +148,7 @@
 
 
 /* ================================================================
-   05. RICH TEXT PATTERNS — Tables, Pros/Cons, Numbered Steps
+   05. RICH TEXT PATTERNS
    ================================================================ */
 
 /* --- TABLES --- */
@@ -304,7 +289,7 @@
 
 
 /* ================================================================
-   06. BODY IMAGES — CMS slots + inline <figure> pattern
+   06. BODY IMAGES
    ================================================================ */
 .blog-content-col > img {
   display: block !important;
@@ -339,10 +324,8 @@
 
 
 /* ================================================================
-   07. LIST POST — TOC, ranked list cards, meta, verdict
+   07. LIST POST
    ================================================================ */
-
-/* --- TOC --- */
 .blog-content-col .w-richtext nav.gps-toc {
   background: #eef5f5 !important;
   border: 1px solid #b3e2e7 !important;
@@ -373,7 +356,6 @@
   color: #53bdc8 !important; text-decoration: underline !important;
 }
 
-/* --- LIST ITEM CARDS --- */
 .blog-content-col .w-richtext .gps-list-item {
   position: relative !important;
   display: block !important;
@@ -387,7 +369,6 @@
   scroll-margin-top: 100px !important;
 }
 
-/* --- RANK BADGE (pops out top-left corner) --- */
 .blog-content-col .w-richtext .gps-list-rank {
   position: absolute !important;
   top: -22px !important; left: 28px !important;
@@ -414,7 +395,6 @@
   display: flex !important; align-items: center !important;
 }
 
-/* --- META ROW --- */
 .blog-content-col .w-richtext .gps-list-meta {
   display: flex !important; flex-wrap: wrap !important;
   gap: 14px !important; align-items: center !important;
@@ -432,13 +412,11 @@
   color: #12074e !important; text-decoration: underline !important;
 }
 
-/* --- SUMMARY --- */
 .blog-content-col .w-richtext p.gps-list-summary {
   font-size: 16px !important; line-height: 1.65 !important;
   color: #1a1a1a !important; margin: 0 0 20px 0 !important;
 }
 
-/* --- 2-COLUMN GRID --- */
 .blog-content-col .w-richtext .gps-list-grid {
   display: grid !important; grid-template-columns: 1fr 1fr !important;
   gap: 20px !important; margin-bottom: 20px !important;
@@ -462,7 +440,6 @@
   color: #1a1a1a !important; margin: 0 !important;
 }
 
-/* --- VERDICT CALLOUT --- */
 .blog-content-col .w-richtext .gps-list-verdict {
   background: #fef8e1 !important;
   border-left: 4px solid #f6d64a !important;
@@ -500,8 +477,6 @@
 /* ================================================================
    08. COMPARISON POST
    ================================================================ */
-
-/* --- AUTO "vs." TITLE COLORING --- */
 .blog-content-col h1 .vs-a,
 .w-richtext h1 .vs-a { color: #45a0aa !important; }
 .blog-content-col h1 .vs-b,
@@ -514,7 +489,6 @@
   padding: 0 6px !important;
 }
 
-/* --- VS INTRO CARDS --- */
 .blog-content-col .w-richtext .gps-vs-intro {
   display: grid !important; grid-template-columns: 1fr 1fr !important;
   gap: 20px !important; max-width: 720px !important;
@@ -552,7 +526,6 @@
 }
 .blog-content-col .w-richtext .gps-vs-card ul li { margin-bottom: 4px !important; }
 
-/* --- DIMENSION COMPARISON TABLE --- */
 .blog-content-col .w-richtext table.gps-vs-table {
   width: 100% !important; max-width: 720px !important;
   margin: 28px auto !important;
@@ -583,7 +556,6 @@
   color: #12074e !important; width: 22% !important;
 }
 
-/* --- "WHEN X WINS" VERDICT BLOCKS --- */
 .blog-content-col .w-richtext .gps-vs-verdict {
   max-width: 720px !important; margin: 32px auto !important;
   padding: 24px 28px !important; border-radius: 8px !important;
@@ -603,7 +575,6 @@
 .blog-content-col .w-richtext .gps-vs-verdict p { margin-bottom: 12px !important; }
 .blog-content-col .w-richtext .gps-vs-verdict p:last-child { margin-bottom: 0 !important; }
 
-/* --- SCENARIO CARDS --- */
 .blog-content-col .w-richtext .gps-scenarios {
   display: grid !important; grid-template-columns: repeat(3, 1fr) !important;
   gap: 16px !important; max-width: 720px !important;
@@ -635,7 +606,6 @@
 }
 .blog-content-col .w-richtext .gps-scenario p:last-child { margin-bottom: 0 !important; }
 
-/* --- CALLOUT BOX --- */
 .blog-content-col .w-richtext .gps-callout {
   max-width: 720px !important; margin: 24px auto !important;
   padding: 18px 22px !important;
@@ -665,8 +635,6 @@
 /* ================================================================
    09. HOW-TO POST
    ================================================================ */
-
-/* --- PREREQ BOX --- */
 .blog-content-col .w-richtext .gps-prereq {
   max-width: 720px !important; margin: 28px auto !important;
   padding: 20px 24px !important;
@@ -689,7 +657,6 @@
   margin-bottom: 6px !important; color: #1a1a1a !important;
 }
 
-/* --- STEP CARDS --- */
 .blog-content-col .w-richtext .gps-step {
   position: relative !important;
   max-width: 720px !important;
@@ -727,7 +694,6 @@
   font-size: 16px !important; line-height: 1.65 !important;
 }
 
-/* --- TOOL CARDS GRID --- */
 .blog-content-col .w-richtext .gps-tools {
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
@@ -753,7 +719,6 @@
   color: #1a1a1a !important;
 }
 
-/* --- STEP NOTE --- */
 .blog-content-col .w-richtext .gps-step-note {
   margin: 18px 0 0 0 !important;
   padding: 16px 20px !important;
@@ -784,8 +749,6 @@
 /* ================================================================
    10. GUIDE POST (PILLAR)
    ================================================================ */
-
-/* --- SCOPE ANSWER --- */
 .blog-content-col .w-richtext .gps-scope-answer {
   max-width: 760px !important;
   margin: 24px auto 32px auto !important;
@@ -808,7 +771,6 @@
   display: block !important; margin-bottom: 10px !important; font-weight: 600 !important;
 }
 
-/* --- GUIDE HERO SVG --- */
 .blog-content-col .w-richtext .gps-guide-hero {
   max-width: 760px !important; margin: 28px auto !important;
   border-radius: 10px !important; overflow: hidden !important;
@@ -818,10 +780,8 @@
   aspect-ratio: 16/9 !important;
 }
 
-/* --- GUIDE TOC --- */
 .blog-content-col .w-richtext nav.gps-toc-guide { max-width: 760px !important; }
 
-/* --- CHAPTER CARDS --- */
 .blog-content-col .w-richtext article.gps-chapter {
   max-width: 760px !important;
   margin: 56px auto 0 auto !important;
@@ -844,7 +804,6 @@
   border-top: none !important; color: #1a1a1a !important;
 }
 
-/* --- CHAPTER INTRO --- */
 .blog-content-col .w-richtext .gps-chapter-intro {
   font-size: 18px !important; line-height: 1.65 !important;
   color: #12074e !important; font-weight: 500 !important;
@@ -858,7 +817,6 @@
   color: #12074e !important; font-weight: 700 !important;
 }
 
-/* --- KEY TAKEAWAY BOX --- */
 .blog-content-col .w-richtext .gps-key-takeaway {
   background: #fef8e1 !important;
   border-left: 4px solid #f6d64a !important;
@@ -875,7 +833,6 @@
   margin: 0 !important; font-size: 16px !important; line-height: 1.55 !important;
 }
 
-/* --- GLOSSARY --- */
 .blog-content-col .w-richtext .gps-glossary {
   background: #fff !important; border: 1px solid #d1e3e5 !important;
   border-radius: 8px !important; padding: 24px !important; margin: 24px 0 !important;
@@ -897,7 +854,6 @@
   margin: 0 0 8px 0 !important; font-size: 15px !important; line-height: 1.55 !important;
 }
 
-/* --- CPL CHART --- */
 .blog-content-col .w-richtext .gps-cpl-chart {
   background: #fff !important; border: 1px solid #d1e3e5 !important;
   border-radius: 8px !important; padding: 24px !important; margin: 24px 0 !important;
@@ -942,7 +898,6 @@
   margin-top: 12px !important; font-style: italic !important;
 }
 
-/* --- CROSS-LINK CARD --- */
 .blog-content-col .w-richtext a.gps-cross-link {
   display: flex !important; gap: 18px !important; align-items: flex-start !important;
   background: #d1f4f6 !important; border: 1px solid #b3e2e7 !important;
@@ -978,7 +933,6 @@
   color: #5f5e5a !important; margin: 0 !important;
 }
 
-/* --- TOOL LIST --- */
 .blog-content-col .w-richtext .gps-tools-list { margin: 20px 0 !important; }
 .blog-content-col .w-richtext .gps-tool-item {
   background: #fff !important;
@@ -1012,72 +966,74 @@
   color: #1a1a1a !important; margin: 0 !important;
 }
 
-/* ==================== STICKY SIDEBAR (v1.1 — hidden by default) ==================== */
-/* The sidebar is built in the DOM by the script, but hidden by default (opacity 0, not interactable).
-   The script toggles .is-visible once the first chapter has scrolled into view.
-   This prevents overlap with the hero section at page top. */
-body.is-guide-post .gps-guide-sidebar {
-  position: fixed !important;
-  top: 120px !important;
-  left: max(24px, calc((100vw - 1200px) / 2 + 24px)) !important;
-  width: 240px !important;
-  max-height: calc(100vh - 160px) !important;
+/* ==================== INLINE STICKY SIDEBAR (v1.2) ==================== */
+/* The sidebar is now inserted into the existing right column by JS,
+   right after the "More Posts" block. It uses position: sticky to pin
+   to the top of the viewport while reading, and scrolls with the page
+   otherwise. No viewport-overlap issues because it's in normal flow. */
+
+.gps-guide-sidebar.gps-guide-sidebar-inline {
+  position: sticky !important;
+  top: 100px !important;  /* Distance from top of viewport when pinned */
+  background: #ffffff !important;
+  border: 1px solid #d1e3e5 !important;
+  border-radius: 8px !important;
+  padding: 20px 20px !important;
+  margin-top: 24px !important;
+  max-height: calc(100vh - 130px) !important;
   overflow-y: auto !important;
-  z-index: 20 !important;
-  padding-right: 8px !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  transform: translateY(8px) !important;
-  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0.25s !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
 }
-body.is-guide-post .gps-guide-sidebar.is-visible {
-  opacity: 1 !important;
-  visibility: visible !important;
-  pointer-events: auto !important;
-  transform: translateY(0) !important;
-  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0s !important;
-}
-body.is-guide-post .gps-guide-sidebar-label {
+.gps-guide-sidebar.gps-guide-sidebar-inline .gps-guide-sidebar-label {
   font-family: 'Poppins', sans-serif !important;
   font-size: 11px !important; font-weight: 700 !important;
   text-transform: uppercase !important; letter-spacing: 0.12em !important;
-  color: #45a0aa !important; margin-bottom: 14px !important;
+  color: #45a0aa !important; margin: 0 0 14px 0 !important;
   padding-bottom: 10px !important; border-bottom: 2px solid #d1e3e5 !important;
 }
-body.is-guide-post .gps-guide-sidebar ol {
+.gps-guide-sidebar.gps-guide-sidebar-inline ol {
   list-style: none !important; padding: 0 !important; margin: 0 !important;
 }
-body.is-guide-post .gps-guide-sidebar ol li { margin-bottom: 2px !important; }
-body.is-guide-post .gps-guide-sidebar ol li a {
+.gps-guide-sidebar.gps-guide-sidebar-inline ol li {
+  margin-bottom: 2px !important;
+}
+.gps-guide-sidebar.gps-guide-sidebar-inline ol li a {
   display: flex !important; align-items: flex-start !important; gap: 10px !important;
-  padding: 9px 12px !important; border-radius: 6px !important;
+  padding: 8px 10px !important; border-radius: 6px !important;
   color: #1a1a1a !important; text-decoration: none !important;
-  font-size: 14px !important; line-height: 1.4 !important;
+  font-size: 13px !important; line-height: 1.4 !important;
   border-left: 3px solid transparent !important;
   transition: background 0.15s !important;
 }
-body.is-guide-post .gps-guide-sidebar ol li a:hover { background: #eef5f5 !important; }
-body.is-guide-post .gps-guide-sidebar ol li a.active {
+.gps-guide-sidebar.gps-guide-sidebar-inline ol li a:hover {
+  background: #eef5f5 !important;
+}
+.gps-guide-sidebar.gps-guide-sidebar-inline ol li a.active {
   background: #eef5f5 !important;
   border-left-color: #53bdc8 !important;
   font-weight: 600 !important; color: #12074e !important;
 }
-body.is-guide-post .gps-guide-sidebar .ch-num {
-  flex-shrink: 0 !important; width: 24px !important; height: 24px !important;
+.gps-guide-sidebar.gps-guide-sidebar-inline .ch-num {
+  flex-shrink: 0 !important; width: 22px !important; height: 22px !important;
   background: #12074e !important; color: #f6d64a !important;
   border-radius: 50% !important;
   display: flex !important; align-items: center !important; justify-content: center !important;
   font-family: 'Poppins', sans-serif !important;
-  font-weight: 700 !important; font-size: 11px !important;
+  font-weight: 700 !important; font-size: 10px !important;
 }
-body.is-guide-post .gps-guide-sidebar ol li a.active .ch-num {
+.gps-guide-sidebar.gps-guide-sidebar-inline ol li a.active .ch-num {
   background: #53bdc8 !important; color: #fff !important;
 }
 
-@media (max-width: 1200px) {
-  body.is-guide-post .gps-guide-sidebar,
-  body.is-guide-post .gps-guide-sidebar.is-visible { display: none !important; }
+/* On narrow screens where the right column stacks below main content,
+   the sticky TOC would still be below the article — no point showing it,
+   reader would have to scroll down past the whole article just to see it.
+   Hide on mobile. */
+@media (max-width: 991px) {
+  .gps-guide-sidebar.gps-guide-sidebar-inline {
+    display: none !important;
+  }
 }
 
 @media (max-width: 767px) {
