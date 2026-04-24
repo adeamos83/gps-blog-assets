@@ -1,0 +1,1103 @@
+/* ================================================================
+   GPS BLOG STYLES & SCRIPTS
+   ----------------------------------------------------------------
+   Consolidated CSS + JS for all blog post types on the GPS site.
+   Hosted externally, loaded from Blog Posts Template page head.
+   
+   TABLE OF CONTENTS
+   -----------------
+   01. GLOBAL HELPERS         — Key Takeaways bullets, empty FAQ hiding
+   02. BLOG TYPOGRAPHY        — Body, H2, H3, lists, links (Comrade-inspired)
+   03. COMPONENT TYPE BUMP    — Quick Answer / Key Takeaways / FAQ font sizes
+   04. COMPONENT LABELS       — Section label pill sizes
+   05. RICH TEXT PATTERNS     — Tables, pros/cons, numbered steps
+   06. BODY IMAGES            — CMS image slots + inline HTML images
+   07. LIST POST              — TOC, ranked list items, verdict callouts
+   08. COMPARISON POST        — VS intro, VS table, verdict blocks, scenarios, callout, auto "vs." title coloring
+   09. HOW-TO POST            — Prereq box, step cards, tool cards, step notes
+   10. GUIDE POST (PILLAR)    — Scope answer, chapters, key-takeaway, glossary, chart, cross-link, tool list, sticky sidebar
+   
+   SCRIPTS (bottom of file)
+   ------------------------
+   A. VS title auto-coloring  — detects " vs. " in H1 and splits-colors
+   B. HowTo schema injection  — reads gps-step microdata, outputs JSON-LD
+   C. Guide sidebar injection — builds sticky chapter nav for guide posts
+   
+   BRAND PALETTE (reference)
+   -------------------------
+   Midnight Blue   #12074e  (primary brand)
+   Gold            #f6d64a  (accent)
+   Dark Turquoise  #53bdc8  (link / section accent)
+   Cadet Blue      #45a0aa  (secondary text)
+   Crimson         #df0651  (contrast / option B)
+   Mint            #eef5f5  (soft background)
+   Powder Blue     #b3e2e7  (border)
+   Light Cyan      #d1f4f6  (pop background)
+   Butter Yellow   #fef8e1  (callout background)
+   Black           #1a1a1a  (body text)
+   Gray            #5f5e5a  (muted text)
+   Border Gray     #d1e3e5  (card borders)
+   ================================================================ */
+
+
+/* ================================================================
+   01. GLOBAL HELPERS
+   ================================================================ */
+.kt-item { display: block !important; position: relative !important; padding-left: 22px !important; }
+.kt-bullet { position: absolute !important; left: 0; top: 8px; }
+.kt-stat, .kt-sep, .kt-desc { display: inline !important; }
+
+[class*="faq-item"]:has(.w-dyn-bind-empty) { display: none !important; }
+
+
+/* ================================================================
+   02. BLOG TYPOGRAPHY REFRESH (Comrade-inspired)
+   ================================================================ */
+.blog-content-col .w-richtext {
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.blog-content-col .w-richtext p {
+  font-family: 'Roboto', sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  line-height: 1.7 !important;
+  color: #1a1a1a !important;
+  margin: 0 0 24px 0 !important;
+  max-width: 65ch;
+}
+
+.blog-content-col .w-richtext h2 {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 30px !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  color: #1a1a1a !important;
+  margin: 48px 0 16px 0 !important;
+  letter-spacing: -0.005em !important;
+  max-width: 65ch;
+}
+.blog-content-col .w-richtext h2 strong { font-weight: 700 !important; color: #1a1a1a !important; }
+
+.blog-content-col .w-richtext h3 {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+  color: #1a1a1a !important;
+  margin: 32px 0 12px 0 !important;
+  max-width: 65ch;
+}
+.blog-content-col .w-richtext h3 strong { font-weight: 700 !important; color: #1a1a1a !important; }
+
+.blog-content-col .w-richtext ul,
+.blog-content-col .w-richtext ol {
+  font-family: 'Roboto', sans-serif !important;
+  font-size: 18px !important;
+  line-height: 1.7 !important;
+  color: #1a1a1a !important;
+  margin: 0 0 24px 0 !important;
+  padding-left: 24px !important;
+  max-width: 65ch;
+}
+.blog-content-col .w-richtext ul li,
+.blog-content-col .w-richtext ol li { margin-bottom: 8px !important; }
+
+.blog-content-col .w-richtext a {
+  color: #53bdc8 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 2px !important;
+  text-decoration-thickness: 1px !important;
+}
+.blog-content-col .w-richtext a:hover { color: #12074e !important; }
+
+.blog-content-col .w-richtext p strong,
+.blog-content-col .w-richtext li strong {
+  font-weight: 700 !important;
+  color: #1a1a1a !important;
+}
+
+@media screen and (max-width: 767px) {
+  .blog-content-col .w-richtext p,
+  .blog-content-col .w-richtext ul,
+  .blog-content-col .w-richtext ol {
+    font-size: 17px !important;
+    line-height: 1.65 !important;
+  }
+  .blog-content-col .w-richtext h2 { font-size: 26px !important; margin: 36px 0 12px 0 !important; }
+  .blog-content-col .w-richtext h3 { font-size: 20px !important; margin: 24px 0 10px 0 !important; }
+}
+
+
+/* ================================================================
+   03. COMPONENT TYPE SIZE BUMP (Quick Answer / KT / FAQ)
+   ================================================================ */
+[class*="qa-body"] { font-size: 17px !important; line-height: 1.65 !important; }
+[class*="kt-intro"] { font-size: 16px !important; line-height: 1.55 !important; }
+[class*="kt-stat"] { font-size: 17px !important; }
+[class*="kt-sep"] { font-size: 17px !important; }
+[class*="kt-desc"] { font-size: 17px !important; line-height: 1.55 !important; }
+
+[class*="faq-q-"]:not([class*="marker"]):not([class*="row"]) { font-size: 17px !important; line-height: 1.5 !important; }
+[class*="faq-a-"]:not([class*="marker"]):not([class*="row"]) { font-size: 17px !important; line-height: 1.65 !important; }
+[class*="faq-q-marker"], [class*="faq-a-marker"] { font-size: 17px !important; }
+
+@media screen and (max-width: 767px) {
+  [class*="qa-body"],
+  [class*="kt-stat"],
+  [class*="kt-desc"],
+  [class*="kt-sep"],
+  [class*="faq-q-"]:not([class*="marker"]):not([class*="row"]),
+  [class*="faq-a-"]:not([class*="marker"]):not([class*="row"]) { font-size: 16px !important; }
+  [class*="kt-intro"] { font-size: 15px !important; }
+}
+
+
+/* ================================================================
+   04. COMPONENT LABELS (section pill sizing)
+   ================================================================ */
+[class*="qa-label"],
+[class*="kt-label"] {
+  font-size: 14px !important;
+  letter-spacing: 0.1em !important;
+  padding: 8px 16px !important;
+  top: -15px !important;
+}
+
+@media screen and (max-width: 767px) {
+  [class*="qa-label"],
+  [class*="kt-label"] {
+    font-size: 13px !important;
+    padding: 7px 14px !important;
+  }
+}
+
+
+/* ================================================================
+   05. RICH TEXT PATTERNS — Tables, Pros/Cons, Numbered Steps
+   Use inline in the Rich Text body:
+     <table class="gps-table">
+     <ul class="gps-pros"> / <ul class="gps-cons">
+     <ol class="gps-steps">
+     Wrap pros+cons in <div class="gps-proscons">
+   ================================================================ */
+
+/* --- TABLES --- */
+.blog-content-col .w-richtext table.gps-table,
+.blog-content-col table.gps-table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: 32px 0 !important;
+  font-family: 'Roboto', sans-serif !important;
+  font-size: 16px !important;
+  border: 1px solid #45a0aa !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+  max-width: 720px !important;
+}
+.blog-content-col table.gps-table thead {
+  background: #53bdc8 !important;
+  border-bottom: 3px solid #f6d64a !important;
+}
+.blog-content-col table.gps-table thead th {
+  color: #1a1a1a !important;
+  font-weight: 700 !important;
+  text-align: left !important;
+  padding: 14px 18px !important;
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  border-right: 1px solid rgba(26,7,78,0.1) !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+.blog-content-col table.gps-table thead th:last-child { border-right: 0 !important; }
+.blog-content-col table.gps-table tbody td {
+  padding: 14px 18px !important;
+  font-size: 16px !important;
+  color: #1a1a1a !important;
+  line-height: 1.5 !important;
+  border-top: 1px solid #d1e3e5 !important;
+  border-right: 1px solid #d1e3e5 !important;
+  vertical-align: top !important;
+}
+.blog-content-col table.gps-table tbody td:last-child { border-right: 0 !important; }
+.blog-content-col table.gps-table tbody tr:nth-child(even) td { background: #eef5f5 !important; }
+.blog-content-col table.gps-table tbody td:first-child { font-weight: 700 !important; color: #1a1a1a !important; }
+
+/* --- PROS / CONS --- */
+.blog-content-col .gps-proscons {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 16px !important;
+  margin: 32px 0 !important;
+  max-width: 720px !important;
+}
+.blog-content-col ul.gps-pros,
+.blog-content-col ul.gps-cons {
+  list-style: none !important;
+  padding: 20px 24px !important;
+  margin: 0 !important;
+  border-radius: 6px !important;
+  font-size: 16px !important;
+  line-height: 1.55 !important;
+  max-width: 720px !important;
+}
+.blog-content-col ul.gps-pros { background: #eef5f5 !important; border: 1.5px solid #45a0aa !important; }
+.blog-content-col ul.gps-cons { background: #fef0f3 !important; border: 1.5px solid #df0651 !important; }
+
+.blog-content-col ul.gps-pros::before,
+.blog-content-col ul.gps-cons::before {
+  display: block !important;
+  font-weight: 800 !important;
+  font-size: 16px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  margin-bottom: 14px !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+.blog-content-col ul.gps-pros::before { content: "✓ Pros" !important; color: #2a7a85 !important; }
+.blog-content-col ul.gps-cons::before { content: "✕ Cons" !important; color: #b0044a !important; }
+
+.blog-content-col ul.gps-pros li,
+.blog-content-col ul.gps-cons li {
+  padding: 6px 0 6px 22px !important;
+  position: relative !important;
+  color: #1a1a1a !important;
+  margin-bottom: 0 !important;
+}
+.blog-content-col ul.gps-pros li::before {
+  content: "✓" !important; position: absolute !important; left: 0 !important;
+  color: #2a7a85 !important; font-weight: 700 !important;
+}
+.blog-content-col ul.gps-cons li::before {
+  content: "✕" !important; position: absolute !important; left: 0 !important;
+  color: #b0044a !important; font-weight: 700 !important;
+}
+
+/* --- NUMBERED STEPS --- */
+.blog-content-col ol.gps-steps {
+  counter-reset: step !important;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 32px 0 !important;
+  max-width: 720px !important;
+}
+.blog-content-col ol.gps-steps li {
+  counter-increment: step !important;
+  position: relative !important;
+  padding: 8px 0 16px 52px !important;
+  font-size: 17px !important;
+  line-height: 1.6 !important;
+  color: #1a1a1a !important;
+  border-bottom: 1px solid #e7e8e8 !important;
+  margin-bottom: 0 !important;
+}
+.blog-content-col ol.gps-steps li:last-child { border-bottom: 0 !important; }
+.blog-content-col ol.gps-steps li::before {
+  content: counter(step) !important;
+  position: absolute !important; left: 0 !important; top: 6px !important;
+  width: 34px !important; height: 34px !important;
+  background: #f6d64a !important; color: #1a1a1a !important;
+  border: 1.5px solid #12074e !important; border-radius: 50% !important;
+  display: flex !important; align-items: center !important; justify-content: center !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important; font-size: 15px !important;
+}
+.blog-content-col ol.gps-steps li strong {
+  color: #1a1a1a !important; font-weight: 700 !important;
+  display: block !important; margin-bottom: 4px !important;
+  font-family: 'Poppins', sans-serif !important; font-size: 18px !important;
+}
+
+@media screen and (max-width: 767px) {
+  .blog-content-col .gps-proscons { grid-template-columns: 1fr !important; }
+  .blog-content-col table.gps-table { font-size: 14px !important; }
+  .blog-content-col table.gps-table thead th,
+  .blog-content-col table.gps-table tbody td { padding: 10px 12px !important; }
+  .blog-content-col ol.gps-steps li { padding-left: 44px !important; font-size: 16px !important; }
+  .blog-content-col ol.gps-steps li::before { width: 30px !important; height: 30px !important; font-size: 14px !important; }
+}
+
+
+/* ================================================================
+   06. BODY IMAGES — CMS slots + inline <figure> pattern
+   ================================================================ */
+.blog-content-col > img {
+  display: block !important;
+  width: 100% !important;
+  max-width: 720px !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9 !important;
+  object-fit: cover !important;
+  margin: 32px auto !important;
+  border-radius: 6px !important;
+}
+
+.blog-content-col .w-richtext figure.gps-inline-image {
+  margin: 32px auto !important;
+  max-width: 720px !important;
+  width: 100% !important;
+}
+.blog-content-col .w-richtext figure.gps-inline-image img {
+  display: block !important;
+  width: 100% !important; height: auto !important;
+  aspect-ratio: 16 / 9 !important;
+  object-fit: cover !important;
+  border-radius: 6px !important;
+  margin: 0 !important;
+}
+
+@media screen and (max-width: 767px) {
+  .blog-content-col > img { margin: 24px auto !important; border-radius: 4px !important; }
+  .blog-content-col .w-richtext figure.gps-inline-image { margin: 24px auto !important; }
+  .blog-content-col .w-richtext figure.gps-inline-image img { border-radius: 4px !important; }
+}
+
+
+/* ================================================================
+   07. LIST POST — TOC, ranked list cards, meta, verdict
+   Used for: "Best X in Y", "Top N Things...", etc.
+   ================================================================ */
+
+/* --- TOC --- */
+.blog-content-col .w-richtext nav.gps-toc {
+  background: #eef5f5 !important;
+  border: 1px solid #b3e2e7 !important;
+  border-left: 4px solid #53bdc8 !important;
+  border-radius: 6px !important;
+  padding: 20px 24px !important;
+  margin: 32px auto !important;
+  max-width: 720px !important;
+}
+.blog-content-col .w-richtext nav.gps-toc .gps-toc-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.1em !important;
+  color: #2a7a85 !important; margin-bottom: 10px !important;
+}
+.blog-content-col .w-richtext nav.gps-toc ol {
+  margin: 0 !important; padding-left: 24px !important;
+  columns: 2 !important; column-gap: 28px !important;
+}
+.blog-content-col .w-richtext nav.gps-toc ol li {
+  margin-bottom: 6px !important; font-size: 15px !important;
+  break-inside: avoid !important;
+}
+.blog-content-col .w-richtext nav.gps-toc ol li a {
+  color: #12074e !important; text-decoration: none !important; font-weight: 500 !important;
+}
+.blog-content-col .w-richtext nav.gps-toc ol li a:hover {
+  color: #53bdc8 !important; text-decoration: underline !important;
+}
+
+/* --- LIST ITEM CARDS --- */
+.blog-content-col .w-richtext .gps-list-item {
+  position: relative !important;
+  display: block !important;
+  background: #ffffff !important;
+  border: 1px solid #d1e3e5 !important;
+  border-top: 3px solid #f6d64a !important;
+  border-radius: 8px !important;
+  padding: 36px 32px 28px 32px !important;
+  margin: 48px auto 24px auto !important;
+  max-width: 720px !important;
+  scroll-margin-top: 100px !important;
+}
+
+/* --- RANK BADGE (pops out top-left corner) --- */
+.blog-content-col .w-richtext .gps-list-rank {
+  position: absolute !important;
+  top: -22px !important; left: 28px !important;
+  width: 56px !important; height: 56px !important;
+  background: #12074e !important; color: #f6d64a !important;
+  border: 3px solid #ffffff !important; border-radius: 50% !important;
+  display: flex !important; align-items: center !important; justify-content: center !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important; font-size: 22px !important;
+  box-shadow: 0 2px 8px rgba(18, 7, 78, 0.15) !important;
+  z-index: 2 !important;
+}
+
+.blog-content-col .w-richtext .gps-list-content { min-width: 0 !important; }
+
+.blog-content-col .w-richtext h3.gps-list-name {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 24px !important; font-weight: 700 !important;
+  color: #1a1a1a !important;
+  margin: 0 0 10px 0 !important;
+  padding-left: 72px !important;
+  line-height: 1.2 !important;
+  min-height: 44px !important;
+  display: flex !important; align-items: center !important;
+}
+
+/* --- META ROW --- */
+.blog-content-col .w-richtext .gps-list-meta {
+  display: flex !important; flex-wrap: wrap !important;
+  gap: 14px !important; align-items: center !important;
+  margin-bottom: 16px !important;
+  font-size: 13px !important; color: #5f5e5a !important;
+}
+.blog-content-col .w-richtext .gps-list-meta-item {
+  display: inline-flex !important; align-items: center !important; gap: 4px !important;
+}
+.blog-content-col .w-richtext a.gps-list-website {
+  color: #53bdc8 !important; font-weight: 600 !important;
+  text-decoration: none !important; font-size: 13px !important;
+}
+.blog-content-col .w-richtext a.gps-list-website:hover {
+  color: #12074e !important; text-decoration: underline !important;
+}
+
+/* --- SUMMARY --- */
+.blog-content-col .w-richtext p.gps-list-summary {
+  font-size: 16px !important; line-height: 1.65 !important;
+  color: #1a1a1a !important; margin: 0 0 20px 0 !important;
+}
+
+/* --- 2-COLUMN GRID (core services + specialty fit) --- */
+.blog-content-col .w-richtext .gps-list-grid {
+  display: grid !important; grid-template-columns: 1fr 1fr !important;
+  gap: 20px !important; margin-bottom: 20px !important;
+  padding: 16px 20px !important;
+  background: #eef5f5 !important; border-radius: 6px !important;
+}
+.blog-content-col .w-richtext .gps-list-col h4 {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.08em !important;
+  color: #2a7a85 !important; margin: 0 0 8px 0 !important;
+}
+.blog-content-col .w-richtext .gps-list-col ul {
+  margin: 0 !important; padding-left: 18px !important;
+  font-size: 14px !important; line-height: 1.6 !important;
+  color: #1a1a1a !important;
+}
+.blog-content-col .w-richtext .gps-list-col ul li { margin-bottom: 4px !important; }
+.blog-content-col .w-richtext .gps-list-col p {
+  font-size: 14px !important; line-height: 1.55 !important;
+  color: #1a1a1a !important; margin: 0 !important;
+}
+
+/* --- VERDICT CALLOUT --- */
+.blog-content-col .w-richtext .gps-list-verdict {
+  background: #fef8e1 !important;
+  border-left: 4px solid #f6d64a !important;
+  border-radius: 6px !important;
+  padding: 16px 20px !important;
+}
+.blog-content-col .w-richtext .gps-list-verdict-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.08em !important;
+  color: #12074e !important; margin-bottom: 6px !important;
+}
+.blog-content-col .w-richtext .gps-list-verdict p {
+  margin: 0 !important; font-size: 15px !important;
+  line-height: 1.55 !important; color: #1a1a1a !important;
+}
+
+@media screen and (max-width: 767px) {
+  .blog-content-col .w-richtext .gps-list-item {
+    padding: 32px 20px 20px 20px !important; margin: 40px auto 20px auto !important;
+  }
+  .blog-content-col .w-richtext .gps-list-rank {
+    top: -20px !important; left: 20px !important;
+    width: 48px !important; height: 48px !important;
+    font-size: 20px !important; border-width: 3px !important;
+  }
+  .blog-content-col .w-richtext h3.gps-list-name {
+    font-size: 22px !important; padding-left: 60px !important; min-height: 40px !important;
+  }
+  .blog-content-col .w-richtext .gps-list-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+  .blog-content-col .w-richtext nav.gps-toc ol { columns: 1 !important; }
+}
+
+
+/* ================================================================
+   08. COMPARISON POST — VS cards, VS table, verdict blocks, scenarios, callout
+   Colors: opt-a = Dark Turquoise (option A / steady)
+           opt-b = Crimson       (option B / energetic)
+   Auto "vs." title coloring via JS (see script A at bottom)
+   ================================================================ */
+
+/* --- AUTO "vs." TITLE COLORING (classes added by script A) --- */
+.blog-content-col h1 .vs-a,
+.w-richtext h1 .vs-a { color: #45a0aa !important; }
+.blog-content-col h1 .vs-b,
+.w-richtext h1 .vs-b { color: #df0651 !important; }
+.blog-content-col h1 .vs-divider,
+.w-richtext h1 .vs-divider {
+  color: #1a1a1a !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+  padding: 0 6px !important;
+}
+
+/* --- VS INTRO CARDS --- */
+.blog-content-col .w-richtext .gps-vs-intro {
+  display: grid !important; grid-template-columns: 1fr 1fr !important;
+  gap: 20px !important; max-width: 720px !important;
+  margin: 32px auto !important;
+}
+.blog-content-col .w-richtext .gps-vs-card {
+  background: #ffffff !important;
+  border: 1px solid #d1e3e5 !important;
+  border-radius: 8px !important;
+  padding: 24px !important;
+  position: relative !important;
+}
+.blog-content-col .w-richtext .gps-vs-card.opt-a { border-top: 4px solid #53bdc8 !important; }
+.blog-content-col .w-richtext .gps-vs-card.opt-b { border-top: 4px solid #df0651 !important; }
+.blog-content-col .w-richtext .gps-vs-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 11px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.1em !important;
+  margin-bottom: 6px !important;
+}
+.blog-content-col .w-richtext .gps-vs-card.opt-a .gps-vs-label { color: #45a0aa !important; }
+.blog-content-col .w-richtext .gps-vs-card.opt-b .gps-vs-label { color: #df0651 !important; }
+.blog-content-col .w-richtext .gps-vs-name {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 26px !important; font-weight: 700 !important;
+  color: #1a1a1a !important; margin-bottom: 4px !important;
+}
+.blog-content-col .w-richtext p.gps-vs-tagline {
+  font-size: 14px !important; color: #5f5e5a !important;
+  margin: 0 0 14px 0 !important; font-style: italic !important;
+}
+.blog-content-col .w-richtext .gps-vs-card ul {
+  margin: 0 !important; padding-left: 18px !important;
+  font-size: 14px !important; line-height: 1.6 !important;
+}
+.blog-content-col .w-richtext .gps-vs-card ul li { margin-bottom: 4px !important; }
+
+/* --- DIMENSION COMPARISON TABLE --- */
+.blog-content-col .w-richtext table.gps-vs-table {
+  width: 100% !important; max-width: 720px !important;
+  margin: 28px auto !important;
+  border-collapse: collapse !important;
+  border: 1px solid #d1e3e5 !important;
+  border-radius: 8px !important; overflow: hidden !important;
+  font-size: 15px !important;
+}
+.blog-content-col .w-richtext table.gps-vs-table thead th {
+  background: #12074e !important; color: #ffffff !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important; text-align: left !important;
+  padding: 14px 18px !important;
+  border-bottom: 3px solid #f6d64a !important;
+}
+.blog-content-col .w-richtext table.gps-vs-table thead th.opt-a { background: #45a0aa !important; }
+.blog-content-col .w-richtext table.gps-vs-table thead th.opt-b { background: #df0651 !important; }
+.blog-content-col .w-richtext table.gps-vs-table tbody td {
+  padding: 14px 18px !important;
+  border-bottom: 1px solid #eef5f5 !important;
+  vertical-align: top !important; line-height: 1.55 !important;
+  color: #1a1a1a !important;
+}
+.blog-content-col .w-richtext table.gps-vs-table tbody tr:last-child td { border-bottom: none !important; }
+.blog-content-col .w-richtext table.gps-vs-table tbody tr:nth-child(even) td { background: #f8fbfb !important; }
+.blog-content-col .w-richtext table.gps-vs-table td.dim-label {
+  font-weight: 700 !important; font-family: 'Poppins', sans-serif !important;
+  color: #12074e !important; width: 22% !important;
+}
+
+/* --- "WHEN X WINS" PAIRED VERDICT BLOCKS --- */
+.blog-content-col .w-richtext .gps-vs-verdict {
+  max-width: 720px !important; margin: 32px auto !important;
+  padding: 24px 28px !important; border-radius: 8px !important;
+  background: #ffffff !important; border: 1px solid #d1e3e5 !important;
+}
+.blog-content-col .w-richtext .gps-vs-verdict.opt-a {
+  border-left: 4px solid #53bdc8 !important; background: #eef5f5 !important;
+}
+.blog-content-col .w-richtext .gps-vs-verdict.opt-b {
+  border-left: 4px solid #df0651 !important; background: #fdf2f6 !important;
+}
+.blog-content-col .w-richtext .gps-vs-verdict h2 {
+  margin-top: 0 !important; padding-top: 0 !important; margin-bottom: 14px !important;
+}
+.blog-content-col .w-richtext .gps-vs-verdict.opt-a h2 { color: #2a7a85 !important; }
+.blog-content-col .w-richtext .gps-vs-verdict.opt-b h2 { color: #9d0540 !important; }
+.blog-content-col .w-richtext .gps-vs-verdict p { margin-bottom: 12px !important; }
+.blog-content-col .w-richtext .gps-vs-verdict p:last-child { margin-bottom: 0 !important; }
+
+/* --- SCENARIO CARDS (3-stage budget guide) --- */
+.blog-content-col .w-richtext .gps-scenarios {
+  display: grid !important; grid-template-columns: repeat(3, 1fr) !important;
+  gap: 16px !important; max-width: 720px !important;
+  margin: 28px auto !important;
+}
+.blog-content-col .w-richtext .gps-scenario {
+  background: #ffffff !important; border: 1px solid #d1e3e5 !important;
+  border-radius: 8px !important; padding: 20px !important;
+  border-top: 4px solid #d1e3e5 !important;
+}
+.blog-content-col .w-richtext .gps-scenario.opt-a { border-top-color: #53bdc8 !important; }
+.blog-content-col .w-richtext .gps-scenario.opt-b { border-top-color: #df0651 !important; }
+.blog-content-col .w-richtext .gps-scenario.mix   { border-top-color: #f6d64a !important; }
+.blog-content-col .w-richtext .gps-scenario-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 11px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.08em !important;
+  color: #5f5e5a !important; margin-bottom: 8px !important;
+}
+.blog-content-col .w-richtext .gps-scenario-title {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 18px !important; font-weight: 700 !important;
+  color: #1a1a1a !important; margin-bottom: 10px !important;
+  line-height: 1.25 !important;
+}
+.blog-content-col .w-richtext .gps-scenario p {
+  font-size: 14px !important; line-height: 1.55 !important;
+  margin-bottom: 10px !important;
+}
+.blog-content-col .w-richtext .gps-scenario p:last-child { margin-bottom: 0 !important; }
+
+/* --- CALLOUT BOX --- */
+.blog-content-col .w-richtext .gps-callout {
+  max-width: 720px !important; margin: 24px auto !important;
+  padding: 18px 22px !important;
+  background: #fef8e1 !important;
+  border-left: 4px solid #f6d64a !important;
+  border-radius: 6px !important;
+}
+.blog-content-col .w-richtext .gps-callout-title {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 13px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.08em !important;
+  color: #12074e !important; margin-bottom: 8px !important;
+}
+.blog-content-col .w-richtext .gps-callout p {
+  margin: 0 !important; font-size: 15px !important; line-height: 1.55 !important;
+}
+
+@media screen and (max-width: 767px) {
+  .blog-content-col .w-richtext .gps-vs-intro { grid-template-columns: 1fr !important; }
+  .blog-content-col .w-richtext .gps-scenarios { grid-template-columns: 1fr !important; }
+  .blog-content-col .w-richtext table.gps-vs-table { font-size: 13px !important; }
+  .blog-content-col .w-richtext table.gps-vs-table tbody td { padding: 10px 12px !important; }
+  .blog-content-col .w-richtext table.gps-vs-table thead th { padding: 10px 12px !important; font-size: 13px !important; }
+}
+
+
+/* ================================================================
+   09. HOW-TO POST — Prereq box, step cards, tool cards, step notes
+   HowTo schema JSON-LD injected via script B at bottom
+   ================================================================ */
+
+/* --- PREREQ BOX --- */
+.blog-content-col .w-richtext .gps-prereq {
+  max-width: 720px !important; margin: 28px auto !important;
+  padding: 20px 24px !important;
+  background: #eef5f5 !important;
+  border: 1px solid #b3e2e7 !important;
+  border-left: 4px solid #53bdc8 !important;
+  border-radius: 8px !important;
+}
+.blog-content-col .w-richtext .gps-prereq-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 13px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.08em !important;
+  color: #2a7a85 !important; margin-bottom: 10px !important;
+}
+.blog-content-col .w-richtext .gps-prereq ul {
+  margin: 0 !important; padding-left: 20px !important;
+  font-size: 15px !important; line-height: 1.6 !important;
+}
+.blog-content-col .w-richtext .gps-prereq ul li {
+  margin-bottom: 6px !important; color: #1a1a1a !important;
+}
+
+/* --- STEP CARDS --- */
+.blog-content-col .w-richtext .gps-step {
+  position: relative !important;
+  max-width: 720px !important;
+  margin: 48px auto 28px auto !important;
+  padding: 32px !important;
+  background: #ffffff !important;
+  border: 1px solid #d1e3e5 !important;
+  border-top: 3px solid #f6d64a !important;
+  border-radius: 8px !important;
+  scroll-margin-top: 100px !important;
+}
+.blog-content-col .w-richtext .gps-step-eyebrow {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.08em !important;
+  color: #2a7a85 !important; margin-bottom: 10px !important;
+}
+.blog-content-col .w-richtext h3.gps-step-title {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 26px !important; font-weight: 700 !important;
+  color: #1a1a1a !important;
+  margin: 0 0 18px 0 !important;
+  line-height: 1.25 !important;
+  padding-top: 0 !important;
+}
+.blog-content-col .w-richtext .gps-step h4 {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 17px !important; font-weight: 700 !important;
+  color: #12074e !important;
+  margin: 22px 0 10px 0 !important;
+  padding-top: 0 !important;
+}
+.blog-content-col .w-richtext .gps-step p,
+.blog-content-col .w-richtext .gps-step ul {
+  font-size: 16px !important; line-height: 1.65 !important;
+}
+
+/* --- TOOL CARDS GRID --- */
+.blog-content-col .w-richtext .gps-tools {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  gap: 12px !important; margin: 14px 0 !important;
+}
+.blog-content-col .w-richtext .gps-tool {
+  padding: 14px 16px !important;
+  background: #f8fbfb !important;
+  border: 1px solid #d1e3e5 !important;
+  border-radius: 6px !important;
+}
+.blog-content-col .w-richtext .gps-tool-name {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important; font-size: 15px !important;
+  color: #12074e !important; margin-bottom: 4px !important;
+}
+.blog-content-col .w-richtext .gps-tool-price {
+  font-size: 13px !important; font-weight: 600 !important;
+  color: #df0651 !important; margin-bottom: 6px !important;
+}
+.blog-content-col .w-richtext .gps-tool-why {
+  font-size: 13px !important; line-height: 1.5 !important;
+  color: #1a1a1a !important;
+}
+
+/* --- STEP NOTE (callout inside a step) --- */
+.blog-content-col .w-richtext .gps-step-note {
+  margin: 18px 0 0 0 !important;
+  padding: 16px 20px !important;
+  background: #fef8e1 !important;
+  border-left: 4px solid #f6d64a !important;
+  border-radius: 6px !important;
+}
+.blog-content-col .w-richtext .gps-step-note strong {
+  display: block !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 13px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.06em !important;
+  color: #12074e !important; margin-bottom: 6px !important;
+}
+.blog-content-col .w-richtext .gps-step-note p {
+  margin: 0 !important; font-size: 15px !important;
+  line-height: 1.55 !important; color: #1a1a1a !important;
+}
+
+@media screen and (max-width: 767px) {
+  .blog-content-col .w-richtext .gps-step { padding: 24px 20px !important; margin: 36px auto 20px auto !important; }
+  .blog-content-col .w-richtext h3.gps-step-title { font-size: 22px !important; }
+  .blog-content-col .w-richtext .gps-tools { grid-template-columns: 1fr !important; }
+  .blog-content-col .w-richtext .gps-prereq { padding: 16px 18px !important; }
+}
+
+
+/* ================================================================
+   10. GUIDE POST (PILLAR)
+   Patterns: scope-answer, guide-hero, chapters, chapter-intro,
+             key-takeaway, glossary, cpl-chart, cross-link, tools-list
+   Sticky sidebar injected by script C (body.is-guide-post gate)
+   ================================================================ */
+
+/* --- SCOPE ANSWER (pillar citation block) --- */
+.blog-content-col .w-richtext .gps-scope-answer {
+  max-width: 760px !important;
+  margin: 24px auto 32px auto !important;
+  padding: 26px 30px !important;
+  background: #eef5f5 !important;
+  border-left: 4px solid #53bdc8 !important;
+  border-radius: 8px !important;
+}
+.blog-content-col .w-richtext .gps-scope-answer-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.1em !important;
+  color: #45a0aa !important; margin-bottom: 12px !important;
+}
+.blog-content-col .w-richtext .gps-scope-answer p {
+  margin: 0 !important; font-size: 17px !important; line-height: 1.65 !important;
+}
+.blog-content-col .w-richtext .gps-scope-answer strong:first-of-type {
+  color: #12074e !important; font-size: 19px !important;
+  display: block !important; margin-bottom: 10px !important; font-weight: 600 !important;
+}
+
+/* --- GUIDE HERO SVG --- */
+.blog-content-col .w-richtext .gps-guide-hero {
+  max-width: 760px !important; margin: 28px auto !important;
+  border-radius: 10px !important; overflow: hidden !important;
+}
+.blog-content-col .w-richtext .gps-guide-hero svg {
+  width: 100% !important; height: auto !important; display: block !important;
+  aspect-ratio: 16/9 !important;
+}
+
+/* --- GUIDE TOC --- */
+.blog-content-col .w-richtext nav.gps-toc-guide { max-width: 760px !important; }
+
+/* --- CHAPTER CARDS --- */
+.blog-content-col .w-richtext article.gps-chapter {
+  max-width: 760px !important;
+  margin: 56px auto 0 auto !important;
+  padding-top: 32px !important;
+  border-top: 1px solid #d1e3e5 !important;
+  scroll-margin-top: 100px !important;
+}
+.blog-content-col .w-richtext article.gps-chapter:first-of-type {
+  border-top: none !important; padding-top: 0 !important; margin-top: 0 !important;
+}
+.blog-content-col .w-richtext .gps-chapter-eyebrow {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.1em !important;
+  color: #53bdc8 !important; margin-bottom: 8px !important;
+}
+.blog-content-col .w-richtext article.gps-chapter h2 {
+  font-size: 30px !important; line-height: 1.2 !important;
+  margin: 0 0 18px 0 !important; padding-top: 0 !important;
+  border-top: none !important; color: #1a1a1a !important;
+}
+
+/* --- CHAPTER INTRO (AI-citable mini-answer) --- */
+.blog-content-col .w-richtext .gps-chapter-intro {
+  font-size: 18px !important; line-height: 1.65 !important;
+  color: #12074e !important; font-weight: 500 !important;
+  margin: 0 0 24px 0 !important;
+  padding: 16px 20px !important;
+  background: #fafbfc !important;
+  border-left: 3px solid #f6d64a !important;
+  border-radius: 0 4px 4px 0 !important;
+}
+.blog-content-col .w-richtext .gps-chapter-intro strong {
+  color: #12074e !important; font-weight: 700 !important;
+}
+
+/* --- KEY TAKEAWAY BOX (end of chapter) --- */
+.blog-content-col .w-richtext .gps-key-takeaway {
+  background: #fef8e1 !important;
+  border-left: 4px solid #f6d64a !important;
+  padding: 20px 24px !important; border-radius: 6px !important;
+  margin: 32px 0 0 0 !important;
+}
+.blog-content-col .w-richtext .gps-key-takeaway-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.1em !important;
+  color: #12074e !important; margin-bottom: 8px !important;
+}
+.blog-content-col .w-richtext .gps-key-takeaway p {
+  margin: 0 !important; font-size: 16px !important; line-height: 1.55 !important;
+}
+
+/* --- GLOSSARY --- */
+.blog-content-col .w-richtext .gps-glossary {
+  background: #fff !important; border: 1px solid #d1e3e5 !important;
+  border-radius: 8px !important; padding: 24px !important; margin: 24px 0 !important;
+}
+.blog-content-col .w-richtext .gps-glossary-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.1em !important;
+  color: #45a0aa !important; margin-bottom: 14px !important;
+}
+.blog-content-col .w-richtext .gps-glossary dl { margin: 0 !important; padding: 0 !important; }
+.blog-content-col .w-richtext .gps-glossary dt {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important; font-size: 15px !important;
+  color: #12074e !important; margin-top: 10px !important;
+}
+.blog-content-col .w-richtext .gps-glossary dt:first-of-type { margin-top: 0 !important; }
+.blog-content-col .w-richtext .gps-glossary dd {
+  margin: 0 0 8px 0 !important; font-size: 15px !important; line-height: 1.55 !important;
+}
+
+/* --- CPL CHART (horizontal bar chart) --- */
+.blog-content-col .w-richtext .gps-cpl-chart {
+  background: #fff !important; border: 1px solid #d1e3e5 !important;
+  border-radius: 8px !important; padding: 24px !important; margin: 24px 0 !important;
+}
+.blog-content-col .w-richtext .gps-cpl-chart-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.1em !important;
+  color: #45a0aa !important; margin-bottom: 16px !important;
+}
+.blog-content-col .w-richtext .gps-cpl-chart-title {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important; font-size: 16px !important;
+  color: #12074e !important; margin-bottom: 18px !important;
+}
+.blog-content-col .w-richtext .gps-cpl-row {
+  display: grid !important;
+  grid-template-columns: 150px 1fr 90px !important;
+  gap: 14px !important; align-items: center !important;
+  margin-bottom: 12px !important;
+}
+.blog-content-col .w-richtext .gps-cpl-label {
+  font-size: 14px !important; font-weight: 600 !important; color: #1a1a1a !important;
+}
+.blog-content-col .w-richtext .gps-cpl-bar {
+  height: 26px !important; border-radius: 4px !important;
+  display: flex !important; align-items: center !important;
+  padding-left: 10px !important; color: #fff !important;
+  font-size: 12px !important; font-weight: 600 !important;
+}
+.blog-content-col .w-richtext .gps-cpl-bar-good    { background: #53bdc8 !important; }
+.blog-content-col .w-richtext .gps-cpl-bar-mid     { background: #f6d64a !important; color: #12074e !important; }
+.blog-content-col .w-richtext .gps-cpl-bar-high    { background: #df0651 !important; }
+.blog-content-col .w-richtext .gps-cpl-bar-highest { background: #12074e !important; }
+.blog-content-col .w-richtext .gps-cpl-value {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important; font-size: 14px !important;
+  color: #12074e !important; text-align: right !important;
+}
+.blog-content-col .w-richtext .gps-cpl-caption {
+  font-size: 13px !important; color: #5f5e5a !important;
+  margin-top: 12px !important; font-style: italic !important;
+}
+
+/* --- CROSS-LINK CARD (hub-and-spoke to sister content) --- */
+.blog-content-col .w-richtext a.gps-cross-link {
+  display: flex !important; gap: 18px !important; align-items: flex-start !important;
+  background: #d1f4f6 !important; border: 1px solid #b3e2e7 !important;
+  padding: 18px 22px !important; border-radius: 8px !important;
+  margin: 20px 0 !important;
+  text-decoration: none !important; color: inherit !important;
+  transition: transform 0.15s !important;
+}
+.blog-content-col .w-richtext a.gps-cross-link:hover {
+  transform: translateY(-2px) !important; border-color: #53bdc8 !important;
+}
+.blog-content-col .w-richtext .gps-cross-link-icon {
+  flex-shrink: 0 !important; width: 42px !important; height: 42px !important;
+  background: #12074e !important; color: #f6d64a !important;
+  border-radius: 8px !important;
+  display: flex !important; align-items: center !important; justify-content: center !important;
+  font-size: 18px !important; font-weight: 700 !important;
+}
+.blog-content-col .w-richtext .gps-cross-link-body { flex: 1 !important; }
+.blog-content-col .w-richtext .gps-cross-link-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 11px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.08em !important;
+  color: #45a0aa !important; margin-bottom: 4px !important;
+}
+.blog-content-col .w-richtext .gps-cross-link-title {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important; font-size: 16px !important;
+  color: #12074e !important; margin-bottom: 4px !important;
+}
+.blog-content-col .w-richtext .gps-cross-link-desc {
+  font-size: 14px !important; line-height: 1.5 !important;
+  color: #5f5e5a !important; margin: 0 !important;
+}
+
+/* --- TOOL LIST --- */
+.blog-content-col .w-richtext .gps-tools-list { margin: 20px 0 !important; }
+.blog-content-col .w-richtext .gps-tool-item {
+  background: #fff !important;
+  border: 1px solid #d1e3e5 !important;
+  border-left: 3px solid #53bdc8 !important;
+  padding: 18px 22px !important; border-radius: 6px !important;
+  margin-bottom: 12px !important;
+}
+.blog-content-col .w-richtext .gps-tool-item-head {
+  display: flex !important; justify-content: space-between !important;
+  align-items: baseline !important; gap: 12px !important;
+  flex-wrap: wrap !important; margin-bottom: 6px !important;
+}
+.blog-content-col .w-richtext .gps-tool-item-name {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important; font-size: 17px !important;
+  color: #12074e !important;
+}
+.blog-content-col .w-richtext .gps-tool-item-name a {
+  color: #53bdc8 !important; text-decoration: none !important;
+}
+.blog-content-col .w-richtext .gps-tool-item-cat {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 11px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.08em !important;
+  color: #45a0aa !important; background: #eef5f5 !important;
+  padding: 3px 10px !important; border-radius: 10px !important;
+}
+.blog-content-col .w-richtext .gps-tool-item-desc {
+  font-size: 14px !important; line-height: 1.55 !important;
+  color: #1a1a1a !important; margin: 0 !important;
+}
+
+/* --- STICKY SIDEBAR (guide posts only, injected by script C) --- */
+body.is-guide-post .gps-guide-sidebar {
+  position: fixed !important;
+  top: 100px !important;
+  left: max(24px, calc((100vw - 1200px) / 2 + 24px)) !important;
+  width: 240px !important;
+  max-height: calc(100vh - 130px) !important;
+  overflow-y: auto !important;
+  z-index: 20 !important;
+  padding-right: 8px !important;
+}
+body.is-guide-post .gps-guide-sidebar-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 11px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.12em !important;
+  color: #45a0aa !important; margin-bottom: 14px !important;
+  padding-bottom: 10px !important; border-bottom: 2px solid #d1e3e5 !important;
+}
+body.is-guide-post .gps-guide-sidebar ol {
+  list-style: none !important; padding: 0 !important; margin: 0 !important;
+}
+body.is-guide-post .gps-guide-sidebar ol li { margin-bottom: 2px !important; }
+body.is-guide-post .gps-guide-sidebar ol li a {
+  display: flex !important; align-items: flex-start !important; gap: 10px !important;
+  padding: 9px 12px !important; border-radius: 6px !important;
+  color: #1a1a1a !important; text-decoration: none !important;
+  font-size: 14px !important; line-height: 1.4 !important;
+  border-left: 3px solid transparent !important;
+  transition: background 0.15s !important;
+}
+body.is-guide-post .gps-guide-sidebar ol li a:hover { background: #eef5f5 !important; }
+body.is-guide-post .gps-guide-sidebar ol li a.active {
+  background: #eef5f5 !important;
+  border-left-color: #53bdc8 !important;
+  font-weight: 600 !important; color: #12074e !important;
+}
+body.is-guide-post .gps-guide-sidebar .ch-num {
+  flex-shrink: 0 !important; width: 24px !important; height: 24px !important;
+  background: #12074e !important; color: #f6d64a !important;
+  border-radius: 50% !important;
+  display: flex !important; align-items: center !important; justify-content: center !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important; font-size: 11px !important;
+}
+body.is-guide-post .gps-guide-sidebar ol li a.active .ch-num {
+  background: #53bdc8 !important; color: #fff !important;
+}
+
+@media (max-width: 1200px) {
+  body.is-guide-post .gps-guide-sidebar { display: none !important; }
+}
+
+@media (max-width: 767px) {
+  .blog-content-col .w-richtext .gps-scope-answer { padding: 20px 22px !important; }
+  .blog-content-col .w-richtext .gps-scope-answer strong:first-of-type { font-size: 17px !important; }
+  .blog-content-col .w-richtext article.gps-chapter h2 { font-size: 24px !important; }
+  .blog-content-col .w-richtext .gps-chapter-intro { font-size: 16px !important; padding: 14px 16px !important; }
+  .blog-content-col .w-richtext .gps-cpl-row {
+    grid-template-columns: 100px 1fr 60px !important; gap: 8px !important; font-size: 12px !important;
+  }
+  .blog-content-col .w-richtext .gps-cpl-label { font-size: 12px !important; }
+  .blog-content-col .w-richtext .gps-tool-item-head { flex-direction: column !important; gap: 4px !important; }
+}
