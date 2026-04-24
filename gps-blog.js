@@ -1,17 +1,15 @@
 /* ================================================================
-   GPS BLOG SCRIPTS
+   GPS BLOG SCRIPTS  (v1.1 — sidebar visibility fix)
    ----------------------------------------------------------------
    Consolidated runtime scripts for blog post types.
    Loaded externally from Blog Posts Template page head.
-   
+
    SCRIPTS IN THIS FILE
    --------------------
    A. VS title auto-coloring  — splits-colors H1s that contain " vs. "
    B. HowTo schema injection  — reads gps-step microdata, outputs JSON-LD
    C. Guide sidebar injection — builds sticky chapter nav for guide posts
-   
-   All three run after DOMContentLoaded and silently no-op if their
-   target patterns aren't present on the current page.
+                                + fades in only when chapters are on-screen
    ================================================================ */
 
 (function() {
@@ -19,9 +17,6 @@
 
   // ================================================================
   // A. VS TITLE AUTO-COLORING
-  // Detects "<X> vs. <Y> [rest]" in blog H1s and wraps the
-  // X / "vs." / Y portions in spans so CSS can color each piece
-  // differently (opt-a turquoise / opt-b crimson).
   // ================================================================
   function colorVsTitles() {
     var titles = document.querySelectorAll('.blog-content-col h1, .blog-header h1, h1[class*="blog"]');
@@ -34,8 +29,6 @@
       var divider = match[2];
       var partB = match[3];
 
-      // Limit coloring of partB to the distinctive term only — stop at
-      // first "for", "in", ":", em-dash, or open-paren.
       var partBMatch = partB.match(/^([^:—(]+?)(\s+(?:for|in|:|—|\()|\s*$)/);
       var partBColored = partBMatch
         ? partBMatch[1].trim()
@@ -52,8 +45,6 @@
 
   // ================================================================
   // B. HOWTO SCHEMA INJECTION
-  // Reads gps-step blocks with schema.org/HowToStep microdata and
-  // injects a JSON-LD <script> into the head for rich-snippet eligibility.
   // ================================================================
   function injectHowToSchema() {
     var steps = document.querySelectorAll('.gps-step[itemtype*="HowToStep"]');
@@ -91,18 +82,16 @@
   }
 
   // ================================================================
-  // C. GUIDE SIDEBAR INJECTION
-  // Detects pages with gps-chapter blocks, tags body.is-guide-post,
-  // then builds a sticky sidebar chapter navigation from those
-  // chapter IDs + H2 titles. Scroll-spy updates the active chapter
-  // as the reader scrolls.
+  // C. GUIDE SIDEBAR INJECTION (v1.1 — visibility gating)
+  // The sidebar is built immediately, but hidden by default.
+  // It only becomes visible once the first chapter enters the viewport
+  // (i.e. the reader has scrolled past the hero + quick-answer + KT sections).
+  // It hides again when the last chapter leaves the viewport.
   // ================================================================
   function initGuideSidebar() {
     var chapters = document.querySelectorAll('article.gps-chapter');
     if (chapters.length === 0) return;
 
-    // Mark the body so CSS can target guide-only styles (including
-    // the sticky sidebar which is hidden by default via [body.is-guide-post] gate)
     document.body.classList.add('is-guide-post');
 
     // Build sidebar structure
@@ -120,7 +109,6 @@
       var id = ch.id || ('ch-' + (i + 1));
       var h2 = ch.querySelector('h2');
       var title = h2 ? h2.textContent.trim() : 'Chapter ' + (i + 1);
-      // Strip "Chapter N — " prefix if present
       var shortTitle = title.replace(/^Chapter\s+\d+\s*[—–-]\s*/i, '');
 
       var li = document.createElement('li');
@@ -140,24 +128,43 @@
     sidebar.appendChild(ol);
     document.body.appendChild(sidebar);
 
-    // Scroll-spy: update active chapter as user scrolls
     var links = sidebar.querySelectorAll('a');
+    var firstChapter = chapters[0];
+    var lastChapter = chapters[chapters.length - 1];
+
+    function updateVisibility() {
+      // Show sidebar when:
+      //   firstChapter top has scrolled above 200px (reader passed the hero)
+      //   AND lastChapter bottom is still below 200px (chapters still on screen)
+      var firstTop = firstChapter.getBoundingClientRect().top;
+      var lastBottom = lastChapter.getBoundingClientRect().bottom;
+      var shouldShow = firstTop < 200 && lastBottom > 200;
+      sidebar.classList.toggle('is-visible', shouldShow);
+    }
+
     function updateActive() {
       var current = chapters[0].id;
       chapters.forEach(function(ch) {
         var rect = ch.getBoundingClientRect();
-        if (rect.top < 180) current = ch.id;
+        if (rect.top < 200) current = ch.id;
       });
       links.forEach(function(link) {
         link.classList.toggle('active', link.getAttribute('href') === '#' + current);
       });
     }
-    window.addEventListener('scroll', updateActive, { passive: true });
-    updateActive();
+
+    function onScroll() {
+      updateVisibility();
+      updateActive();
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    onScroll();
   }
 
   // ================================================================
-  // BOOTSTRAP — run all three on DOMContentLoaded
+  // BOOTSTRAP
   // ================================================================
   function init() {
     colorVsTitles();
