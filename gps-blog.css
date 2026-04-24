@@ -1,14 +1,27 @@
 /* ================================================================
-   GPS BLOG STYLES & SCRIPTS  (v1.2 — inline sticky TOC under More Posts)
+   GPS BLOG STYLES & SCRIPTS  (v1.3 — adds Author Box component)
    ----------------------------------------------------------------
    CHANGELOG
    ---------
-   v1.2 — TOC is now inserted into the existing right column by JS,
-          right after the "More Posts" block. Uses position: sticky
-          so it pins to the top of the viewport while reading, then
-          naturally scrolls off when the column ends.
-   v1.1 — fixed-position overlay with is-visible gating (deprecated)
-   v1.0 — initial consolidated release
+   v1.3 — Author Box component (section 11). E-E-A-T credential chip layout
+          at end of every post. Pulls data from JS config (see gps-blog.js).
+   v1.2 — Inline sticky TOC sidebar (inserted into right column)
+   v1.1 — Fixed-position floating TOC (deprecated)
+   v1.0 — Initial consolidated release
+
+   TABLE OF CONTENTS
+   -----------------
+   01. GLOBAL HELPERS — Key Takeaways bullets, empty FAQ hiding
+   02. BLOG TYPOGRAPHY — Body, H2, H3, lists, links
+   03. COMPONENT TYPE BUMP — QA / KT / FAQ font sizes
+   04. COMPONENT LABELS — Section label pill sizes
+   05. RICH TEXT PATTERNS — Tables, pros/cons, numbered steps
+   06. BODY IMAGES — Inline figure pattern
+   07. LIST POST — TOC, ranked list items, verdict callouts
+   08. COMPARISON POST — VS cards, VS table, verdict blocks, scenarios
+   09. HOW-TO POST — Prereq, step cards, tool cards, step notes
+   10. GUIDE POST (PILLAR) — Scope answer, chapters, glossary, chart, sticky sidebar
+   11. AUTHOR BOX — E-E-A-T author credential chip component (v1.3)
    ================================================================ */
 
 
@@ -148,7 +161,7 @@
 
 
 /* ================================================================
-   05. RICH TEXT PATTERNS
+   05. RICH TEXT PATTERNS — Tables, Pros/Cons, Numbered Steps
    ================================================================ */
 
 /* --- TABLES --- */
@@ -289,7 +302,7 @@
 
 
 /* ================================================================
-   06. BODY IMAGES
+   06. BODY IMAGES (inline figure pattern)
    ================================================================ */
 .blog-content-col > img {
   display: block !important;
@@ -967,14 +980,9 @@
 }
 
 /* ==================== INLINE STICKY SIDEBAR (v1.2) ==================== */
-/* The sidebar is now inserted into the existing right column by JS,
-   right after the "More Posts" block. It uses position: sticky to pin
-   to the top of the viewport while reading, and scrolls with the page
-   otherwise. No viewport-overlap issues because it's in normal flow. */
-
 .gps-guide-sidebar.gps-guide-sidebar-inline {
   position: sticky !important;
-  top: 100px !important;  /* Distance from top of viewport when pinned */
+  top: 100px !important;
   background: #ffffff !important;
   border: 1px solid #d1e3e5 !important;
   border-radius: 8px !important;
@@ -995,9 +1003,7 @@
 .gps-guide-sidebar.gps-guide-sidebar-inline ol {
   list-style: none !important; padding: 0 !important; margin: 0 !important;
 }
-.gps-guide-sidebar.gps-guide-sidebar-inline ol li {
-  margin-bottom: 2px !important;
-}
+.gps-guide-sidebar.gps-guide-sidebar-inline ol li { margin-bottom: 2px !important; }
 .gps-guide-sidebar.gps-guide-sidebar-inline ol li a {
   display: flex !important; align-items: flex-start !important; gap: 10px !important;
   padding: 8px 10px !important; border-radius: 6px !important;
@@ -1006,9 +1012,7 @@
   border-left: 3px solid transparent !important;
   transition: background 0.15s !important;
 }
-.gps-guide-sidebar.gps-guide-sidebar-inline ol li a:hover {
-  background: #eef5f5 !important;
-}
+.gps-guide-sidebar.gps-guide-sidebar-inline ol li a:hover { background: #eef5f5 !important; }
 .gps-guide-sidebar.gps-guide-sidebar-inline ol li a.active {
   background: #eef5f5 !important;
   border-left-color: #53bdc8 !important;
@@ -1026,14 +1030,8 @@
   background: #53bdc8 !important; color: #fff !important;
 }
 
-/* On narrow screens where the right column stacks below main content,
-   the sticky TOC would still be below the article — no point showing it,
-   reader would have to scroll down past the whole article just to see it.
-   Hide on mobile. */
 @media (max-width: 991px) {
-  .gps-guide-sidebar.gps-guide-sidebar-inline {
-    display: none !important;
-  }
+  .gps-guide-sidebar.gps-guide-sidebar-inline { display: none !important; }
 }
 
 @media (max-width: 767px) {
@@ -1046,4 +1044,166 @@
   }
   .blog-content-col .w-richtext .gps-cpl-label { font-size: 12px !important; }
   .blog-content-col .w-richtext .gps-tool-item-head { flex-direction: column !important; gap: 4px !important; }
+}
+
+
+/* ================================================================
+   11. AUTHOR BOX (v1.3) — E-E-A-T author credential component
+   Injected by gps-blog.js at the end of .blog-content-col on every post.
+   Structure:
+     .gps-author-box
+       .gps-author-box-label ("Written by")
+       .gps-author-box-main
+         img.gps-author-photo (64px circle)
+         .gps-author-body
+           .gps-author-name
+           .gps-author-title
+           .gps-author-credentials (chip wrapper)
+             span.gps-author-credential ✕ N
+           .gps-author-bio
+           a.gps-author-link
+   ================================================================ */
+
+.gps-author-box {
+  max-width: 720px !important;
+  margin: 48px auto 24px auto !important;
+  padding: 28px 32px !important;
+  background: #ffffff !important;
+  border: 1px solid #d1e3e5 !important;
+  border-top: 3px solid #12074e !important;
+  border-radius: 10px !important;
+  box-sizing: border-box !important;
+}
+
+.gps-author-box-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.12em !important;
+  color: #45a0aa !important;
+  margin-bottom: 14px !important;
+  padding-bottom: 10px !important;
+  border-bottom: 1px solid #eef5f5 !important;
+}
+
+.gps-author-box-main {
+  display: flex !important;
+  gap: 20px !important;
+  align-items: flex-start !important;
+}
+
+.gps-author-photo {
+  flex-shrink: 0 !important;
+  width: 72px !important;
+  height: 72px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 2px solid #eef5f5 !important;
+  background: #eef5f5 !important;
+}
+
+.gps-author-body {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.gps-author-name {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #1a1a1a !important;
+  line-height: 1.2 !important;
+  margin: 0 0 2px 0 !important;
+}
+
+.gps-author-title {
+  font-family: 'Roboto', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: #5f5e5a !important;
+  line-height: 1.35 !important;
+  margin-bottom: 10px !important;
+}
+
+/* Credential chips — the E-E-A-T signal Google and AI models look for */
+.gps-author-credentials {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  margin-bottom: 14px !important;
+}
+
+.gps-author-credential {
+  display: inline-block !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  color: #12074e !important;
+  background: #d1f4f6 !important;
+  border: 1px solid #b3e2e7 !important;
+  padding: 4px 10px !important;
+  border-radius: 12px !important;
+  white-space: nowrap !important;
+}
+
+.gps-author-bio {
+  font-family: 'Roboto', sans-serif !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  color: #1a1a1a !important;
+  margin: 0 0 12px 0 !important;
+}
+
+.gps-author-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #53bdc8 !important;
+  text-decoration: none !important;
+  transition: color 0.15s !important;
+}
+
+.gps-author-link:hover {
+  color: #12074e !important;
+  text-decoration: underline !important;
+}
+
+@media (max-width: 767px) {
+  .gps-author-box {
+    padding: 22px 20px !important;
+    margin: 36px auto 20px auto !important;
+  }
+  .gps-author-box-main {
+    gap: 16px !important;
+  }
+  .gps-author-photo {
+    width: 56px !important;
+    height: 56px !important;
+  }
+  .gps-author-name {
+    font-size: 18px !important;
+  }
+  .gps-author-title {
+    font-size: 13px !important;
+  }
+  .gps-author-credential {
+    font-size: 10px !important;
+    padding: 3px 8px !important;
+  }
+  .gps-author-bio {
+    font-size: 14px !important;
+  }
+}
+
+/* Stack credential wraps below photo on very narrow screens */
+@media (max-width: 479px) {
+  .gps-author-box-main {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
 }
