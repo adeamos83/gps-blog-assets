@@ -1,11 +1,15 @@
 /* ================================================================
-   GPS BLOG SCRIPTS  (v1.4 — author box reads from Webflow CMS)
+   GPS BLOG SCRIPTS  (v1.5 — no author box without a real CMS author)
    ----------------------------------------------------------------
-   v1.4 change: author box now pulls data from the post's linked
-   Webflow author item (via hidden CMS-bound DOM elements in the
-   blog post template) instead of a hardcoded config. Falls back
-   to AUTHOR_DATA_FALLBACK when the DOM bindings aren't present
-   so legacy templates still render an author box.
+   v1.5 change: dropped the AUTHOR_DATA_FALLBACK fallback. A client
+   with no author bound in Webflow's CMS was silently getting a GPS
+   employee's name/photo/bio stamped onto their post as the "Written
+   by" byline -- a real problem, not a cosmetic one. No CMS binding
+   now means no author box at all, full stop.
+
+   v1.4 — author box reads from Webflow CMS. Pulls data from the
+   post's linked Webflow author item via hidden CMS-bound DOM
+   elements in the blog post template instead of a hardcoded config.
 
    v1.3 — author box component
    v1.2 — inline sticky TOC sidebar for guide posts
@@ -37,28 +41,14 @@
   'use strict';
 
   // ================================================================
-  // FALLBACK author data — used only when the Webflow CMS bindings
-  // are missing from the page template (e.g. an old template that
-  // hasn't been updated yet). Chris Johnson stays as the safety net
-  // so we never render a broken / empty author box.
+  // No hardcoded fallback author here anymore (removed in v1.5) — a client
+  // with nothing bound in Webflow's CMS gets no author box, not a GPS
+  // employee's identity standing in for theirs.
   // ================================================================
-  var AUTHOR_DATA_FALLBACK = {
-    name: 'Chris Johnson',
-    title: 'Senior Digital Marketing Strategist at Geek Powered Studios',
-    photo: 'https://cdn.prod.website-files.com/69e8f51d3ddd473d72d9ec7a/69ebd794835f8cb39b24629e_photo-1560250097-0b93528c311a.jpeg',
-    credentials: [
-      'Google Ads Certified',
-      'Google Analytics Certified',
-      '15+ years in digital marketing',
-      'Home Services SEO Specialist'
-    ],
-    bio: 'Chris Johnson leads digital marketing strategy at Geek Powered Studios, where he has helped hundreds of home services contractors across Texas grow their businesses through SEO, paid media, and AI-powered lead automation. He specializes in translating complex search-engine changes into practical playbooks that actually move the needle for plumbers, roofers, HVAC, and electrical contractors.',
-    linkedin: 'https://www.linkedin.com/in/chrisjohnson/'
-  };
 
-  // Read author data from the hidden CMS-bound block. Returns null
-  // when the block (or the essential `name` field) is missing — caller
-  // should fall back to AUTHOR_DATA_FALLBACK in that case.
+  // Read author data from the hidden CMS-bound block. Returns null when the
+  // block (or the essential `name` field) is missing — caller treats that as
+  // "no real author, don't render a box."
   function readAuthorFromCMS() {
     var root = document.querySelector('.gps-author-cms-data');
     if (!root) return null;
@@ -91,7 +81,7 @@
   }
 
   function getAuthorData() {
-    return readAuthorFromCMS() || AUTHOR_DATA_FALLBACK;
+    return readAuthorFromCMS();
   }
 
   // Tiny escape helper — author fields are author-controlled inside
@@ -173,9 +163,9 @@
 
   // ================================================================
   // C. AUTHOR BOX INJECTION (v1.4 — CMS-driven)
-  // Renders a "Written by" box at the end of the blog content column
-  // on every blog post page. Pulls from .gps-author-cms-data first,
-  // falls back to AUTHOR_DATA_FALLBACK if the bindings aren't there.
+  // Renders a "Written by" box at the end of the blog content column,
+  // but only when the post has a real author bound in Webflow's CMS
+  // (.gps-author-cms-data). No binding means no box.
   // ================================================================
   function injectAuthorBox() {
     var contentCol = document.querySelector('.blog-content-col');
@@ -185,6 +175,7 @@
     if (contentCol.querySelector('.gps-author-box')) return;
 
     var data = getAuthorData();
+    if (!data) return; // no real Webflow CMS author bound — don't fake one
 
     var credentialChips = (data.credentials || []).map(function(c) {
       return '<span class="gps-author-credential">' + escapeHtml(c) + '</span>';
