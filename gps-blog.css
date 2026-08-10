@@ -1,9 +1,18 @@
 /* ================================================================
-   GPS BLOG STYLES & SCRIPTS  (v1.3 — adds Author Box component)
+   GPS BLOG STYLES & SCRIPTS  (v1.4 — adds inline Quick Answer / Key
+   Takeaways / FAQ block styles)
    ----------------------------------------------------------------
    CHANGELOG
    ---------
-   v1.3 — Author Box component (section 11). E-E-A-T credential chip layout
+   v1.4 — Quick Answer / Key Takeaways / FAQ inline block styles
+          (section 03). These are the classes the blog-factory renderer
+          actually outputs (.gps-quick-answer / .gps-takeaways / .gps-faq*)
+          — sections that used to be "03. COMPONENT TYPE BUMP" and
+          "04. COMPONENT LABELS" style an OLDER, different class scheme
+          ([class*="qa-body"], [class*="kt-intro"], [class*="faq-q-"])
+          that nothing currently generates; left in place untouched in
+          case anything legacy still relies on it, just renumbered.
+   v1.3 — Author Box component (section 12). E-E-A-T credential chip layout
           at end of every post. Pulls data from JS config (see gps-blog.js).
    v1.2 — Inline sticky TOC sidebar (inserted into right column)
    v1.1 — Fixed-position floating TOC (deprecated)
@@ -13,15 +22,16 @@
    -----------------
    01. GLOBAL HELPERS — Key Takeaways bullets, empty FAQ hiding
    02. BLOG TYPOGRAPHY — Body, H2, H3, lists, links
-   03. COMPONENT TYPE BUMP — QA / KT / FAQ font sizes
-   04. COMPONENT LABELS — Section label pill sizes
-   05. RICH TEXT PATTERNS — Tables, pros/cons, numbered steps
-   06. BODY IMAGES — Inline figure pattern
-   07. LIST POST — TOC, ranked list items, verdict callouts
-   08. COMPARISON POST — VS cards, VS table, verdict blocks, scenarios
-   09. HOW-TO POST — Prereq, step cards, tool cards, step notes
-   10. GUIDE POST (PILLAR) — Scope answer, chapters, glossary, chart, sticky sidebar
-   11. AUTHOR BOX — E-E-A-T author credential chip component (v1.3)
+   03. INLINE CONTENT BLOCKS — Quick Answer / Key Takeaways / FAQ (current class scheme)
+   04. COMPONENT TYPE BUMP (legacy) — QA / KT / FAQ font sizes
+   05. COMPONENT LABELS (legacy) — Section label pill sizes
+   06. RICH TEXT PATTERNS — Tables, pros/cons, numbered steps
+   07. BODY IMAGES — Inline figure pattern
+   08. LIST POST — TOC, ranked list items, verdict callouts
+   09. COMPARISON POST — VS cards, VS table, verdict blocks, scenarios
+   10. HOW-TO POST — Prereq, step cards, tool cards, step notes
+   11. GUIDE POST (PILLAR) — Scope answer, chapters, glossary, chart, sticky sidebar
+   12. AUTHOR BOX — E-E-A-T author credential chip component (v1.3)
    ================================================================ */
 
 
@@ -117,7 +127,96 @@
 
 
 /* ================================================================
-   03. COMPONENT TYPE SIZE BUMP
+   03. INLINE CONTENT BLOCKS — Quick Answer / Key Takeaways / FAQ
+   ----------------------------------------------------------------
+   These are the exact classes the blog-factory renderer outputs inline
+   in post-body (src/themes/gps-1/render-shared-blocks.ts):
+     .gps-quick-answer > .gps-quick-answer-label, p
+     .gps-takeaways > .gps-takeaways-label, ul > .gps-takeaway-item > .gps-takeaway-item-title/-desc
+     .gps-faq > .gps-faq-heading, .gps-faq-item > .gps-faq-question/-answer
+   Added v1.4 — previously nothing here styled these, so every post's
+   Quick Answer / Key Takeaways / FAQ rendered as plain unstyled text.
+   ================================================================ */
+.blog-content-col .w-richtext .gps-quick-answer {
+  background: #eef5f5 !important;
+  border-left: 4px solid #53bdc8 !important;
+  padding: 18px 22px !important;
+  border-radius: 6px !important;
+  margin: 0 0 24px 0 !important;
+  max-width: 720px !important;
+}
+.blog-content-col .w-richtext .gps-quick-answer-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.1em !important;
+  color: #2a7a85 !important; margin-bottom: 8px !important;
+}
+.blog-content-col .w-richtext .gps-quick-answer p {
+  margin: 0 !important; font-size: 16px !important; line-height: 1.55 !important;
+  color: #1a1a1a !important;
+}
+
+.blog-content-col .w-richtext .gps-takeaways {
+  background: #ffffff !important;
+  border: 1px solid #d1e3e5 !important;
+  border-radius: 8px !important;
+  padding: 24px !important; margin: 24px 0 !important;
+  max-width: 720px !important;
+}
+.blog-content-col .w-richtext .gps-takeaways-label {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 0.1em !important;
+  color: #12074e !important; margin-bottom: 12px !important;
+}
+.blog-content-col .w-richtext .gps-takeaways ul {
+  margin: 0 !important; padding: 0 !important; list-style: none !important;
+  max-width: none !important;
+}
+.blog-content-col .w-richtext .gps-takeaway-item {
+  padding: 10px 0 !important; border-top: 1px solid #e7e8e8 !important;
+}
+.blog-content-col .w-richtext .gps-takeaway-item:first-child { border-top: none !important; }
+.blog-content-col .w-richtext .gps-takeaway-item-title {
+  font-weight: 700 !important; color: #12074e !important;
+  font-size: 15px !important; margin-bottom: 2px !important;
+}
+.blog-content-col .w-richtext .gps-takeaway-item-desc {
+  font-size: 14.5px !important; line-height: 1.5 !important;
+  color: #5f5e5a !important;
+}
+
+.blog-content-col .w-richtext .gps-faq {
+  margin: 40px 0 0 0 !important; max-width: 720px !important;
+}
+.blog-content-col .w-richtext .gps-faq-heading {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 26px !important; font-weight: 700 !important;
+  color: #1a1a1a !important; margin: 0 0 8px 0 !important;
+}
+.blog-content-col .w-richtext .gps-faq-item {
+  padding: 16px 0 !important; border-top: 1px solid #d1e3e5 !important;
+}
+.blog-content-col .w-richtext .gps-faq-question {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 700 !important; font-size: 16px !important;
+  color: #12074e !important; margin-bottom: 6px !important;
+}
+.blog-content-col .w-richtext .gps-faq-answer {
+  font-size: 15px !important; line-height: 1.6 !important;
+  color: #1a1a1a !important;
+}
+
+@media screen and (max-width: 767px) {
+  .blog-content-col .w-richtext .gps-quick-answer,
+  .blog-content-col .w-richtext .gps-takeaways { padding: 16px 18px !important; }
+  .blog-content-col .w-richtext .gps-faq-heading { font-size: 22px !important; }
+}
+
+
+/* ================================================================
+   04. COMPONENT TYPE SIZE BUMP (legacy class scheme — see section 03
+   for the class names actually in use today)
    ================================================================ */
 [class*="qa-body"] { font-size: 17px !important; line-height: 1.65 !important; }
 [class*="kt-intro"] { font-size: 16px !important; line-height: 1.55 !important; }
@@ -141,7 +240,7 @@
 
 
 /* ================================================================
-   04. COMPONENT LABELS
+   05. COMPONENT LABELS (legacy class scheme)
    ================================================================ */
 [class*="qa-label"],
 [class*="kt-label"] {
@@ -161,7 +260,7 @@
 
 
 /* ================================================================
-   05. RICH TEXT PATTERNS — Tables, Pros/Cons, Numbered Steps
+   06. RICH TEXT PATTERNS — Tables, Pros/Cons, Numbered Steps
    ================================================================ */
 
 /* --- TABLES --- */
@@ -302,7 +401,7 @@
 
 
 /* ================================================================
-   06. BODY IMAGES (inline figure pattern)
+   07. BODY IMAGES (inline figure pattern)
    ================================================================ */
 .blog-content-col > img {
   display: block !important;
@@ -337,7 +436,7 @@
 
 
 /* ================================================================
-   07. LIST POST
+   08. LIST POST
    ================================================================ */
 .blog-content-col .w-richtext nav.gps-toc {
   background: #eef5f5 !important;
@@ -488,7 +587,7 @@
 
 
 /* ================================================================
-   08. COMPARISON POST
+   09. COMPARISON POST
    ================================================================ */
 .blog-content-col h1 .vs-a,
 .w-richtext h1 .vs-a { color: #45a0aa !important; }
@@ -646,7 +745,7 @@
 
 
 /* ================================================================
-   09. HOW-TO POST
+   10. HOW-TO POST
    ================================================================ */
 .blog-content-col .w-richtext .gps-prereq {
   max-width: 720px !important; margin: 28px auto !important;
@@ -760,7 +859,7 @@
 
 
 /* ================================================================
-   10. GUIDE POST (PILLAR)
+   11. GUIDE POST (PILLAR)
    ================================================================ */
 .blog-content-col .w-richtext .gps-scope-answer {
   max-width: 760px !important;
@@ -1048,7 +1147,7 @@
 
 
 /* ================================================================
-   11. AUTHOR BOX (v1.3) — E-E-A-T author credential component
+   12. AUTHOR BOX (v1.3) — E-E-A-T author credential component
    Injected by gps-blog.js at the end of .blog-content-col on every post.
    Structure:
      .gps-author-box
