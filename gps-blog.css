@@ -1,9 +1,18 @@
 /* ================================================================
-   GPS BLOG STYLES & SCRIPTS  (v1.4 — adds inline Quick Answer / Key
-   Takeaways / FAQ block styles)
+   GPS BLOG STYLES & SCRIPTS  (v1.5 — Quick Answer / Key Takeaways now
+   match the site's established pill-badge design)
    ----------------------------------------------------------------
    CHANGELOG
    ---------
+   v1.5 — Quick Answer / Key Takeaways (section 03) restyled to match
+          the real, established Designer-bound component still visible
+          on older posts (.qa-module/.qa-label, .kt-module/.kt-label) —
+          colors, spacing, and the floating "💡 Quick Answer" / "📊 Key
+          Takeaways" pill badges were pulled directly from that live
+          component's computed styles, not guessed. The blog-factory
+          renderer was updated to match (adds the emoji to the labels,
+          splits the draft's own intro text into its own
+          .gps-takeaways-intro instead of it standing in as the label).
    v1.4 — Quick Answer / Key Takeaways / FAQ inline block styles
           (section 03). These are the classes the blog-factory renderer
           actually outputs (.gps-quick-answer / .gps-takeaways / .gps-faq*)
@@ -132,58 +141,93 @@
    These are the exact classes the blog-factory renderer outputs inline
    in post-body (src/themes/gps-1/render-shared-blocks.ts):
      .gps-quick-answer > .gps-quick-answer-label, p
-     .gps-takeaways > .gps-takeaways-label, ul > .gps-takeaway-item > .gps-takeaway-item-title/-desc
+     .gps-takeaways > .gps-takeaways-label, .gps-takeaways-intro,
+       ul > .gps-takeaway-item > .gps-takeaway-item-title/-desc
      .gps-faq > .gps-faq-heading, .gps-faq-item > .gps-faq-question/-answer
-   Added v1.4 — previously nothing here styled these, so every post's
-   Quick Answer / Key Takeaways / FAQ rendered as plain unstyled text.
+   Quick Answer / Key Takeaways (v1.5) are styled to match this site's
+   real, established Designer-bound component (.qa-module/.kt-module,
+   still visible on older posts) — colors/spacing/pill-badge labels
+   pulled directly from that component's live computed styles.
    ================================================================ */
 .blog-content-col .w-richtext .gps-quick-answer {
+  position: relative !important;
   background: #eef5f5 !important;
-  border-left: 4px solid #53bdc8 !important;
-  padding: 18px 22px !important;
+  border-style: solid !important;
+  border-color: #45a0aa !important;
+  border-width: 2px 2px 2px 6px !important;
+  border-left-color: #53bdc8 !important;
   border-radius: 6px !important;
+  padding: 28px 32px 24px !important;
   margin: 0 0 24px 0 !important;
   max-width: 720px !important;
 }
 .blog-content-col .w-richtext .gps-quick-answer-label {
-  font-family: 'Poppins', sans-serif !important;
-  font-size: 12px !important; font-weight: 700 !important;
-  text-transform: uppercase !important; letter-spacing: 0.1em !important;
-  color: #2a7a85 !important; margin-bottom: 8px !important;
+  position: absolute !important; top: -15px !important; left: 22px !important;
+  font-family: 'Roboto', sans-serif !important;
+  font-size: 14px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 1.4px !important;
+  color: #ffffff !important; background: #45a0aa !important;
+  border-radius: 3px !important; padding: 8px 16px !important;
 }
 .blog-content-col .w-richtext .gps-quick-answer p {
-  margin: 0 !important; font-size: 16px !important; line-height: 1.55 !important;
+  margin: 0 !important; font-size: 17px !important; line-height: 1.6 !important;
   color: #1a1a1a !important;
 }
 
 .blog-content-col .w-richtext .gps-takeaways {
-  background: #ffffff !important;
-  border: 1px solid #d1e3e5 !important;
-  border-radius: 8px !important;
-  padding: 24px !important; margin: 24px 0 !important;
+  position: relative !important;
+  background: #fefbf4 !important;
+  border-style: solid !important;
+  border-color: #12074e !important;
+  border-width: 2px 2px 2px 6px !important;
+  border-left-color: #f6d64a !important;
+  border-radius: 6px !important;
+  padding: 32px 32px 30px !important;
+  margin: 0 0 36px 0 !important;
   max-width: 720px !important;
 }
 .blog-content-col .w-richtext .gps-takeaways-label {
-  font-family: 'Poppins', sans-serif !important;
-  font-size: 12px !important; font-weight: 700 !important;
-  text-transform: uppercase !important; letter-spacing: 0.1em !important;
-  color: #12074e !important; margin-bottom: 12px !important;
+  position: absolute !important; top: -15px !important; left: 22px !important;
+  font-family: 'Roboto', sans-serif !important;
+  font-size: 14px !important; font-weight: 700 !important;
+  text-transform: uppercase !important; letter-spacing: 1.4px !important;
+  color: #f6d64a !important; background: #12074e !important;
+  border-radius: 3px !important; padding: 8px 16px !important;
+}
+.blog-content-col .w-richtext .gps-takeaways-intro {
+  font-style: italic !important; font-size: 15px !important; line-height: 1.5 !important;
+  color: #5f5e5a !important; margin: 0 0 20px 0 !important;
 }
 .blog-content-col .w-richtext .gps-takeaways ul {
+  display: grid !important; grid-template-columns: 1fr 1fr !important;
+  gap: 12px 28px !important;
   margin: 0 !important; padding: 0 !important; list-style: none !important;
   max-width: none !important;
 }
 .blog-content-col .w-richtext .gps-takeaway-item {
-  padding: 10px 0 !important; border-top: 1px solid #e7e8e8 !important;
+  position: relative !important;
+  padding-left: 20px !important;
+  font-size: 17px !important; line-height: 1.5 !important;
 }
-.blog-content-col .w-richtext .gps-takeaway-item:first-child { border-top: none !important; }
+.blog-content-col .w-richtext .gps-takeaway-item::before {
+  content: '' !important; position: absolute !important; left: 0 !important; top: 8px !important;
+  width: 8px !important; height: 8px !important; border-radius: 50% !important;
+  background: #f6d64a !important;
+}
 .blog-content-col .w-richtext .gps-takeaway-item-title {
+  display: inline !important;
   font-weight: 700 !important; color: #12074e !important;
-  font-size: 15px !important; margin-bottom: 2px !important;
+}
+.blog-content-col .w-richtext .gps-takeaway-item-title::after {
+  content: ' — ' !important; font-weight: 400 !important; color: #2c2c2c !important;
 }
 .blog-content-col .w-richtext .gps-takeaway-item-desc {
-  font-size: 14.5px !important; line-height: 1.5 !important;
-  color: #5f5e5a !important;
+  display: inline !important;
+  color: #2c2c2c !important;
+}
+
+@media screen and (max-width: 767px) {
+  .blog-content-col .w-richtext .gps-takeaways ul { grid-template-columns: 1fr !important; }
 }
 
 .blog-content-col .w-richtext .gps-faq {
